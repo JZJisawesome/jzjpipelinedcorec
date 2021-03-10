@@ -7,7 +7,7 @@ module jzjpcc_fetch
 	input logic reset,
 	
 	//Outputs to decode stage
-	output logic [31:0] instruction_decode,//This is big endian
+	output logic [31:0] instruction_decode,//Big endian
 	output logic [31:2] currentPC_decode,
 	
 	//Inputs (from decode for jal/jalr/branches)
@@ -15,7 +15,7 @@ module jzjpcc_fetch
 	input logic [31:2] controlTransferNewPC,
 	
 	//I/O from/to memory module
-	input logic [31:0] instruction_fetch,
+	input logic [31:0] instruction_fetch,//Big endian
 	output logic [31:2] instructionAddressToLatch,
 	
 	//Hazard control
