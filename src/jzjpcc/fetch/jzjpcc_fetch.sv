@@ -14,6 +14,10 @@ module jzjpcc_fetch
 	input logic pcCTWriteEnable,//Whether controlTransferNewPC or the next sequential pc must be latched
 	input logic [31:2] controlTransferNewPC,
 	
+	//I/O from/to memory module
+	input logic [31:0] instruction_fetch,
+	output logic [31:2] instructionAddressToLatch,
+	
 	//Hazard control
 	input logic stall_fetch,//New pc won't be latched
 	input logic flush_decode//Flushes instruction_decode to be a nop on the next posedge instead of fetching a new instruction
@@ -22,9 +26,33 @@ module jzjpcc_fetch
 logic [31:2] currentPC_fetch;
 logic [31:2] nextPC;
 
-//From/for instruction memory
-logic [31:2] instructionAddressToLatch;
+//For instruction memory
 assign instructionAddressToLatch = nextPC;
+
+//Sequential logic
+always_ff @(posedge clock, posedge reset)
+begin
+	if (reset)
+	begin
+		instruction_decode <= 32'h00000013;//Reset to nop
+		//Value of currentPC_decode does not matter because instruction_decode is nop
+	end
+	else if (clock)
+	begin
+		if (flush_decode)
+		begin
+			instruction_decode <= 32'h00000013;//Flush to nop
+		end
+		else
+		begin
+			instruction_decode <= instruction_fetch;//Bring instruction combinationally fetched from SRAM to decode stage
+		end
+		
+		//Bring currentPC value along to decode stage
+		//If flush_decode is 1, the value doesn't matter because instruction_decode is nop
+		currentPC_decode <= currentPC_fetch;
+	end
+end
 
 /* Modules */
 
