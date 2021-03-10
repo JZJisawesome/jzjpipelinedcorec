@@ -13,6 +13,6 @@ assign reset = !not_reset;
 //jzjpcc_immediateFormer (.instruction, .immediate);//Test
 jzjpcc_regfile(.clock, .reset, .rdAddr(instruction), .rd(instruction), .rdWriteEn(test), .rs1Addr(instruction), .rs1(immediate));//Test
 
-jzjpcc_pc();//Test
+jzjpcc_fetch();//Test
 
 endmodule 
