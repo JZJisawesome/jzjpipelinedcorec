@@ -11,13 +11,17 @@ module top
 logic reset;
 assign reset = !not_reset;
 
+logic [31:0] register31Value;
+
+jzjpcc #(.INITIAL_MEM_CONTENTS("/tmp/test.hex")) (.*);
+
 //jzjpcc_immediateFormer (.instruction, .immediate);//Test
 //jzjpcc_regfile(.clock, .reset, .rdAddr(instruction), .rd(instruction), .rdWriteEn(test), .rs1Addr(instruction), .rs1(immediate));//Test
 
 //jzjpcc_fetch();//Test
 
-jzjpcc_inferred_sram(.clock(clock), .readB(immediate[15:0]), .addressB(instruction[15:0]),
-.writeEnableB(test), .readA(immediate[31:16]), .addressA(instruction[31:16]), .writeEnableA(!test),
-.byteWriteMaskA(immediate), .byteWriteMaskB(immediate));
+//jzjpcc_inferred_sram(.clock(clock), .readB(immediate[15:0]), .addressB(instruction[15:0]),
+//.writeEnableB(test), .readA(immediate[31:16]), .addressA(instruction[31:16]), .writeEnableA(!test),
+//.byteWriteMaskA(immediate), .byteWriteMaskB(immediate));//Test
 
 endmodule 
