@@ -11,14 +11,14 @@ module jzjpcc_memory_backend
 	input logic reset,
 	
 	//Instruction fetch
-	output logic [31:0] instruction_fetch,//Big endian
+	output logic [31:2] instruction_fetch,//Big endian
 	//input logic [31:2] instructionAddressToLatch
 	input logic [PC_MAX_B:2] instructionAddressToLatch
 	
 	//Memory stage//TODO
 );
 logic [31:0] littleEndianInstruction;
-assign instruction_fetch = toBigEndian32(littleEndianInstruction);
+assign instruction_fetch = toBigEndian32(littleEndianInstruction) >> 2;//Discard lower 2 bits
 
 /* Modules */
 

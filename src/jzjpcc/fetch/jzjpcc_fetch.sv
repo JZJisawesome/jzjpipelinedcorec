@@ -10,7 +10,7 @@ module jzjpcc_fetch
 	input logic reset,
 	
 	//Outputs to decode stage
-	output logic [31:0] instruction_decode,//Big endian
+	output logic [31:2] instruction_decode,//Big endian
 	output logic [PC_MAX_B:2] currentPC_decode,
 	
 	//Inputs (from decode for jal/jalr/branches)
@@ -18,7 +18,7 @@ module jzjpcc_fetch
 	input logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//I/O from/to memory module
-	input logic [31:0] instruction_fetch,//Big endian
+	input logic [31:2] instruction_fetch,//Big endian
 	output logic [PC_MAX_B:2] instructionAddressToLatch,
 	
 	//Hazard control
@@ -37,14 +37,14 @@ always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		instruction_decode <= 32'h00000013;//Reset to nop
+		instruction_decode <= 32'h00000013 >> 2;//Reset to nop
 		//Value of currentPC_decode does not matter because instruction_decode is nop
 	end
 	else if (clock)
 	begin
 		if (flush_decode)
 		begin
-			instruction_decode <= 32'h00000013;//Flush to nop
+			instruction_decode <= 32'h00000013 >> 2;//Flush to nop
 		end
 		else
 		begin

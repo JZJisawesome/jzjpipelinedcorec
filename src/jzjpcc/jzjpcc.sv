@@ -22,12 +22,12 @@ logic stall_fetch;
 logic flush_decode;
 
 //Decode
-logic [31:0] instruction_decode;
+logic [31:2] instruction_decode;
 logic [PC_MAX_B:2] currentPC_decode;
 
 //Common modules
 //Memory backend
-logic [31:0] instruction_fetch;
+logic [31:2] instruction_fetch;
 logic [PC_MAX_B:2] instructionAddressToLatch;
 
 /* Modules */
