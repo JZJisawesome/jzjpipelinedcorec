@@ -17,6 +17,7 @@ assign reset = !not_reset;
 //jzjpcc_fetch();//Test
 
 jzjpcc_inferred_sram(.clock(clock), .readB(immediate[15:0]), .addressB(instruction[15:0]),
-.writeEnableB(test), .readA(immediate[31:16]), .addressA(instruction[31:16]), .writeEnableA(!test));
+.writeEnableB(test), .readA(immediate[31:16]), .addressA(instruction[31:16]), .writeEnableA(!test),
+.byteWriteMaskA(immediate), .byteWriteMaskB(immediate));
 
 endmodule 
