@@ -2,29 +2,32 @@
 //The instruction_decode and currentPC_decode are part of the decode stage (register leading into the decode stage)
 
 module jzjpcc_fetch
+#(
+	parameter int PC_MAX_B
+)
 (
 	input logic clock,
 	input logic reset,
 	
 	//Outputs to decode stage
 	output logic [31:0] instruction_decode,//Big endian
-	output logic [31:2] currentPC_decode,
+	output logic [PC_MAX_B:2] currentPC_decode,
 	
 	//Inputs (from decode for jal/jalr/branches)
 	input logic pcCTWriteEnable,//Whether controlTransferNewPC or the next sequential pc must be latched
-	input logic [31:2] controlTransferNewPC,
+	input logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//I/O from/to memory module
 	input logic [31:0] instruction_fetch,//Big endian
-	output logic [31:2] instructionAddressToLatch,
+	output logic [PC_MAX_B:2] instructionAddressToLatch,
 	
 	//Hazard control
 	input logic stall_fetch,//New pc won't be latched
 	input logic flush_decode//Flushes instruction_decode to be a nop on the next posedge instead of fetching a new instruction
 );
 //From program counter
-logic [31:2] currentPC_fetch;
-logic [31:2] nextPC;
+logic [PC_MAX_B:2] currentPC_fetch;
+logic [PC_MAX_B:2] nextPC;
 
 //For instruction memory
 assign instructionAddressToLatch = nextPC;
@@ -56,6 +59,6 @@ end
 
 /* Modules */
 
-jzjpcc_pc programCounter(.*);
+jzjpcc_pc #(.PC_MAX_B(PC_MAX_B)) programCounter (.*);
 
 endmodule

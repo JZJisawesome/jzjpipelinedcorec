@@ -3,7 +3,8 @@ import jzjpcc_endianness_functions::toBigEndian32;
 module jzjpcc_memory_backend
 #(
 	parameter INITIAL_MEM_CONTENTS,
-	parameter int RAM_A_WIDTH
+	parameter int RAM_A_WIDTH,
+	parameter int PC_MAX_B
 )
 (
 	input logic clock,
@@ -12,7 +13,7 @@ module jzjpcc_memory_backend
 	//Instruction fetch
 	output logic [31:0] instruction_fetch,//Big endian
 	//input logic [31:2] instructionAddressToLatch
-	input logic [RAM_A_WIDTH + 1:2] instructionAddressToLatch
+	input logic [PC_MAX_B:2] instructionAddressToLatch
 	
 	//Memory stage//TODO
 );
