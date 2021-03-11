@@ -41,6 +41,7 @@ logic flush_execute;
 //Execute
 logic [2:0] aluOperation_execute;
 logic aluMod_execute;
+logic [1:0] aluMuxMode_execute;
 logic rdWriteEnable_execute;
 logic [31:0] immediate_execute;
 logic [31:0] rs1_execute;

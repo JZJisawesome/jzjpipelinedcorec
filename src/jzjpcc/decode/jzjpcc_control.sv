@@ -5,6 +5,7 @@ module jzjpcc_control
 	//Control outputs for stages after decode
 	output logic [2:0] aluOperation_decode,
 	output logic aluMod_decode,
+	output logic [1:0] aluMuxMode_execute,
 	output logic rdWriteEnable_decode
 );
 

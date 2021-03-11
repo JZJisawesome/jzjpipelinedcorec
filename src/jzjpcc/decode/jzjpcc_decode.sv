@@ -20,6 +20,7 @@ module jzjpcc_decode
 	//TODO also control logic
 	output logic [2:0] aluOperation_execute,
 	output logic aluMod_execute,
+	output logic [1:0] aluMuxMode_execute,
 	output logic rdWriteEnable_execute,
 	
 	
