@@ -37,14 +37,14 @@ always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		instruction_decode <= 32'h00000013 >> 2;//Reset to nop
+		instruction_decode <= 32'h00000013 >> 2;//Reset to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		//Value of currentPC_decode does not matter because instruction_decode is nop
 	end
 	else if (clock)
 	begin
 		if (flush_decode)
 		begin
-			instruction_decode <= 32'h00000013 >> 2;//Flush to nop
+			instruction_decode <= 32'h00000013 >> 2;//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		end
 		else
 		begin

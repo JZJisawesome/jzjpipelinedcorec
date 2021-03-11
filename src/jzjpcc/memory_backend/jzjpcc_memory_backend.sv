@@ -12,13 +12,19 @@ module jzjpcc_memory_backend
 	
 	//Instruction fetch
 	output logic [31:2] instruction_fetch,//Big endian
-	//input logic [31:2] instructionAddressToLatch
-	input logic [PC_MAX_B:2] instructionAddressToLatch
+	input logic [PC_MAX_B:2] instructionAddressToLatch,
 	
 	//Memory stage//TODO
+	
+	//MMIO Output
+	input logic [31:0] mmioInputs [8],
+	output logic [31:0] mmioOutputs [8]
 );
+//Instruction Fetch Logic
 logic [31:0] littleEndianInstruction;
 assign instruction_fetch = toBigEndian32(littleEndianInstruction) >> 2;//Discard lower 2 bits
+
+//Data Read/Write Logic
 
 /* Modules */
 

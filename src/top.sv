@@ -11,7 +11,14 @@ module top
 logic reset;
 assign reset = !not_reset;
 
+//Testing
 logic [31:0] register31Value;
+
+logic [31:0] mmioInputs [8];
+logic [31:0] mmioOutputs [8];
+
+assign immediate = register31Value;
+assign mmioInputs[0] = instruction;
 
 jzjpcc #(.INITIAL_MEM_CONTENTS("/tmp/test.hex")) (.*);
 

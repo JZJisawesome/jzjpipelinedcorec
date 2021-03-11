@@ -5,15 +5,15 @@ module jzjpcc_regfile
 	input logic reset,
 	
 	//Read ports (combinational)
-	input logic [4:0] rs1Addr,
-	input logic [4:0] rs2Addr,
-	output logic [31:0] rs1,
-	output logic [31:0] rs2,
+	input logic [4:0] rs1Addr_decode,
+	input logic [4:0] rs2Addr_decode,
+	output logic [31:0] rs1_decode,
+	output logic [31:0] rs2_decode,
 	
 	//Write port (negedge)
-	input logic [4:0] rdAddr,
-	input logic [31:0] rd,//Data to write
-	input logic rdWriteEn,
+	input logic [4:0] rdAddr_writebackEnd,
+	input logic [31:0] rd_writebackEnd,//Data to write
+	input logic rdWriteEnable_writebackEnd,
 	
 	//For testing
 	output logic [31:0] register31Value
@@ -23,8 +23,8 @@ logic [31:0] registerFile [31:1];//31 actual registers
 assign register31Value = registerFile[31];//testing
 
 //Read logic (x0 is always 0)
-assign rs1 = (rs1Addr == 0) ? 0 : registerFile[rs1Addr];
-assign rs2 = (rs2Addr == 0) ? 0 : registerFile[rs2Addr];
+assign rs1_decode = (rs1Addr_decode == 0) ? 0 : registerFile[rs1Addr_decode];
+assign rs2_decode = (rs2Addr_decode == 0) ? 0 : registerFile[rs2Addr_decode];
 
 //Write logic
 always_ff @(negedge clock, posedge reset)
@@ -39,8 +39,8 @@ begin
 	end
 	else if (!clock)
 	begin
-		if (rdWriteEn)
-			registerFile[rdAddr] <= rd;//Write data to register
+		if (rdWriteEnable_writebackEnd)
+			registerFile[rdAddr_writebackEnd] <= rd_writebackEnd;//Write data to register
 	end
 end
 
