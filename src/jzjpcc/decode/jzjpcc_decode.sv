@@ -18,6 +18,10 @@ module jzjpcc_decode
 	output logic [PC_MAX_B:2] currentPC_execute,
 	output logic [4:0] rdAddr_execute,//TODO might need flushing
 	//TODO also control logic
+	output logic [2:0] aluOperation_execute,
+	output logic aluMod_execute,
+	output logic rdWriteEnable_execute,
+	
 	
 	//I/O from/to register file
 	output logic [4:0] rs1Addr_decode,
@@ -42,6 +46,11 @@ logic [31:0] immediateJ;
 assign rs1Addr_decode = instruction_decode[19:15];
 assign rs2Addr_decode = instruction_decode[24:20];
 
+//Control lines
+logic [2:0] aluOperation_decode;
+logic aluMod_decode;
+logic rdWriteEnable_decode;
+
 //Execute stage output logic
 always_ff @(posedge clock, posedge reset)
 begin
@@ -52,6 +61,7 @@ begin
 	end
 	else if (clock)
 	begin
+		//TODO maybe move this to control?
 		if (flush_execute)
 		begin
 			//TODO flush control to make into a nop
@@ -60,6 +70,10 @@ begin
 		else
 		begin
 			//Else pass control
+			aluOperation_execute <= aluOperation_decode;
+			aluMod_execute <= aluMod_decode;
+			rdWriteEnable_execute <= rdWriteEnable_decode;
+			
 			rdAddr_execute <= instruction_decode[11:7];
 		end
 		
@@ -74,5 +88,6 @@ end
 
 /* Modules */
 jzjpcc_immediateFormer immediateFormer (.*);
+jzjpcc_control control (.*);
 
 endmodule

@@ -31,4 +31,6 @@ jzjpcc #(.INITIAL_MEM_CONTENTS("/tmp/test.hex")) (.*);
 //.writeEnableB(test), .readA(immediate[31:16]), .addressA(instruction[31:16]), .writeEnableA(!test),
 //.byteWriteMaskA(immediate), .byteWriteMaskB(immediate));//Test
 
+jzjpcc_alu ();//test
+
 endmodule 

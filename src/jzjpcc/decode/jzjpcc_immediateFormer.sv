@@ -27,15 +27,22 @@ assign immediateJ = {{12{signBit}}, instruction_decode[19:12], instruction_decod
 //Next stage multiplexer
 //Note: synthesis will optimize things a ton
 
-logic [4:0] opcode;
-assign opcode = instruction_decode[6:2];
+typedef enum logic[4:0]
+{
+	LOAD = 5'b00000, MISC_MEM = 5'b00011, OP_IMM = 5'b00100, AUIPC = 5'b00101,
+	STORE = 5'b01000, OP = 5'b01100, LUI = 5'b01101, BRANCH = 5'b11000,
+	JALR = 5'b11001, JAL = 5'b11011, SYSTEM = 5'b11100
+} opcode_t;
+
+opcode_t opcode;
+assign opcode = opcode_t'(instruction_decode[6:2]);
 
 always_comb
 begin
 	unique case (opcode)
-		5'b00100, 5'b00000: immediate = immediateI;//OP-IMM and LOAD
-		5'b01101, 5'b00101: immediate = immediateU;//LUI and AUPIC
-		5'b01000: immediate = immediateS;//STORE
+		OP_IMM, LOAD: immediate = immediateI;//OP-IMM and LOAD
+		LUI, AUIPC: immediate = immediateU;//LUI and AUPIC
+		STORE: immediate = immediateS;//STORE
 		default: immediate = 'x;//Opcode is either invalid, does not use an immediate, or is handled within decode (jalr, branches, jal)
 	endcase
 end

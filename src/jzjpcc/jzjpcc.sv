@@ -39,6 +39,9 @@ logic [PC_MAX_B:2] currentPC_decode;
 logic flush_execute;
 
 //Execute
+logic [2:0] aluOperation_execute;
+logic aluMod_execute;
+logic rdWriteEnable_execute;
 logic [31:0] immediate_execute;
 logic [31:0] rs1_execute;
 logic [31:0] rs2_execute;
@@ -62,6 +65,7 @@ logic rdWriteEnable_writebackEnd;
 //Stages
 jzjpcc_fetch #(.PC_MAX_B(PC_MAX_B)) fetch (.*);
 jzjpcc_decode #(.PC_MAX_B(PC_MAX_B)) decode (.*);
+jzjpcc_execute #(.PC_MAX_B(PC_MAX_B)) execute (.*);
 
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
