@@ -1,6 +1,6 @@
 module jzjpcc_immediateFormer
 (
-	input logic [31:2] instruction,
+	input logic [31:2] instruction_decode,
 	
 	//Output for next pc logic
 	output logic [31:0] immediateI,//For JALR (and next stage multiplexer)
@@ -12,23 +12,23 @@ module jzjpcc_immediateFormer
 	output logic [31:0] immediate
 );
 logic signBit;
-assign signBit = instruction[31];
+assign signBit = instruction_decode[31];
 
 //Individual immediate logic
 logic [31:0] immediateS;
 logic [31:0] immediateU;
 
-assign immediateI = {{21{signBit}}, instruction[30:20]};
-assign immediateS = {{21{signBit}}, instruction[30:25], instruction[11:7]};
-assign immediateB = {{20{signBit}}, instruction[7], instruction[30:25], instruction[11:8], 1'b0};
-assign immediateU = {signBit, instruction[30:12], 12'b0};
-assign immediateJ = {{12{signBit}}, instruction[19:12], instruction[20], instruction[30:21]};
+assign immediateI = {{21{signBit}}, instruction_decode[30:20]};
+assign immediateS = {{21{signBit}}, instruction_decode[30:25], instruction_decode[11:7]};
+assign immediateB = {{20{signBit}}, instruction_decode[7], instruction_decode[30:25], instruction_decode[11:8], 1'b0};
+assign immediateU = {signBit, instruction_decode[30:12], 12'b0};
+assign immediateJ = {{12{signBit}}, instruction_decode[19:12], instruction_decode[20], instruction_decode[30:21]};
 
 //Next stage multiplexer
 //Note: synthesis will optimize things a ton
 
 logic [4:0] opcode;
-assign opcode = instruction[6:2];
+assign opcode = instruction_decode[6:2];
 
 always_comb
 begin

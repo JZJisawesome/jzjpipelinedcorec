@@ -37,6 +37,9 @@ logic flush_decode;
 logic [31:2] instruction_decode;
 logic [PC_MAX_B:2] currentPC_decode;
 
+//Execute
+logic [31:0] immediate_execute;
+
 //Common modules
 //Memory backend
 logic [31:2] instruction_fetch;
@@ -52,7 +55,8 @@ logic rdWriteEnable_writebackEnd;
 
 /* Modules */
 //Stages
-jzjpcc_fetch #(.PC_MAX_B(PC_MAX_B)) fetch (.*);//TODO
+jzjpcc_fetch #(.PC_MAX_B(PC_MAX_B)) fetch (.*);
+jzjpcc_decode #(.PC_MAX_B(PC_MAX_B)) decode (.*);
 
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
