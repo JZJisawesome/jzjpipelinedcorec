@@ -36,9 +36,14 @@ logic flush_decode;
 //Decode
 logic [31:2] instruction_decode;
 logic [PC_MAX_B:2] currentPC_decode;
+logic flush_execute;
 
 //Execute
 logic [31:0] immediate_execute;
+logic [31:0] rs1_execute;
+logic [31:0] rs2_execute;
+logic [PC_MAX_B:2] currentPC_execute;
+logic [4:0] rdAddr_execute;
 
 //Common modules
 //Memory backend
