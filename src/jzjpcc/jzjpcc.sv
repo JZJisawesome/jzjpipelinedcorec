@@ -48,6 +48,15 @@ logic [31:0] rs1_execute;
 logic [31:0] rs2_execute;
 logic [PC_MAX_B:2] currentPC_execute;
 logic [4:0] rdAddr_execute;
+//For memory
+logic [RAM_A_WIDTH - 1:0] memAddress_execute;//For latching by memory address register (combinational)
+logic [31:0] memDataToWrite_execute;//Combinational
+logic [3:0] memByteMask_execute;//Combinational
+
+//Memory
+logic [31:0] aluResult_memory;//Sequential (for writing to reg file)
+logic [PC_MAX_B:2] currentPC_memory;//Sequential
+logic rdWriteEnable_memory;//Sequential
 
 //Common modules
 //Memory backend
@@ -66,7 +75,7 @@ logic rdWriteEnable_writebackEnd;
 //Stages
 jzjpcc_fetch #(.PC_MAX_B(PC_MAX_B)) fetch (.*);
 jzjpcc_decode #(.PC_MAX_B(PC_MAX_B)) decode (.*);
-jzjpcc_execute #(.PC_MAX_B(PC_MAX_B)) execute (.*);
+jzjpcc_execute #(.RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) execute (.*);
 
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
