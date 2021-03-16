@@ -23,7 +23,6 @@ module jzjpcc_decode
 	output logic [1:0] aluMuxMode_execute,
 	output logic rdWriteEnable_execute,
 	
-	
 	//I/O from/to register file
 	output logic [4:0] rs1Addr_decode,
 	output logic [4:0] rs2Addr_decode,

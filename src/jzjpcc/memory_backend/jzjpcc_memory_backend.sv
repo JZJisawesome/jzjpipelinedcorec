@@ -14,7 +14,10 @@ module jzjpcc_memory_backend
 	output logic [31:2] instruction_fetch,//Big endian
 	input logic [PC_MAX_B:2] instructionAddressToLatch,
 	
-	//Memory stage//TODO
+	//Memory stage (Combinational execute output is latched by the memory stage)
+	input logic [31:2] memAddress_execute_frommemory,
+	input logic [31:0] memDataToWrite_execute_frommemory,
+	input logic [3:0] memByteMask_execute_frommemory,
 	
 	//MMIO Output
 	input logic [31:0] mmioInputs [8],
