@@ -6,15 +6,6 @@ module jzjpcc_memory
 	
 	//Inputs from execute
 	jzjpcc_memory_if.memory memoryIF,
-	/*
-	input logic [31:2] memAddress_execute,//For latching by memory address register (combinational)
-	input logic [31:0] memDataToWrite_execute,//Combinational
-	input logic [3:0] memByteMask_execute,//Combinational
-	
-	input logic [31:0] aluResult_memory,//Sequential (for writing to reg file)
-	input logic rdWriteEnable_memory,//Sequential
-	input logic [4:0] rdAddr_memory,//Sequential
-	*/
 	
 	//Outputs to writeback
 	output logic [4:0] rdAddr_writeback,

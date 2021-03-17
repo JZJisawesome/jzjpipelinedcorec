@@ -41,17 +41,8 @@ logic flush_execute;
 //Execute
 jzjpcc_execute_if #(.PC_MAX_B(PC_MAX_B)) executeIF ();
 
-//For memory
-//logic [31:2] memAddress_execute;//For latching by memory address register (combinational)
-//logic [31:0] memDataToWrite_execute;//Combinational
-//logic [3:0] memByteMask_execute;//Combinational
-
 //Memory
 jzjpcc_memory_if memoryIF ();
-
-//logic [31:0] aluResult_memory;//Sequential (for writing to reg file)
-//logic rdWriteEnable_memory;//Sequential
-//logic [4:0] rdAddr_memory;//Sequential
 
 //Writeback
 logic [4:0] rdAddr_writeback;

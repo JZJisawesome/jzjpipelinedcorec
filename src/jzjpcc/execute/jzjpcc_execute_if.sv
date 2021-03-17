@@ -18,18 +18,18 @@ logic aluMod;
 logic [1:0] aluMuxMode;
 
 //Control lines for other stages
-//TODO
-//logic memoryWriteEnable;
+logic memoryWriteEnable;//TODO use
+logic rdSource;//0 = aluResult_writeback, 1 = memoryOut_writeback
 logic rdWriteEnable;
 
 modport decode
 (
-	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable//Does not play nice with RTL viewer
+	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 modport execute
 (
-	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable//Does not play nice with RTL viewer
+	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 endinterface

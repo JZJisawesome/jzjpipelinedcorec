@@ -14,20 +14,20 @@ logic [3:0] memByteMask;
 
 //Control logic for memory stage (sequential)
 //TODO
-//output logic memWriteEnable_execute,
+logic memoryWriteEnable;//TODO use
 
 //Control lines for other stages (sequential)
-//TODO
+logic rdSource;//0 = aluResult_writeback, 1 = memoryOut_writeback
 logic rdWriteEnable;//Sequential
 
 modport execute
 (
-	output memAddress, memDataToWrite, memByteMask, aluResult, rdAddr, rdWriteEnable//Does not play nice with RTL viewer
+	output memAddress, memDataToWrite, memByteMask, aluResult, rdAddr, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 modport memory
 (
-	input memAddress, memDataToWrite, memByteMask, aluResult, rdAddr, rdWriteEnable//Does not play nice with RTL viewer
+	input memAddress, memDataToWrite, memByteMask, aluResult, rdAddr, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 endinterface
