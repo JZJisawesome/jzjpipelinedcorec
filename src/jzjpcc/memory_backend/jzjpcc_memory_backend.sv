@@ -18,6 +18,7 @@ module jzjpcc_memory_backend
 	input logic [31:2] memAddress_execute_frommemory,
 	input logic [31:0] memDataToWrite_execute_frommemory,
 	input logic [3:0] memByteMask_execute_frommemory,
+	output logic [31:0] memDataRead_memory,
 	
 	//MMIO Output
 	input logic [31:0] mmioInputs [8],

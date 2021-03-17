@@ -10,6 +10,21 @@ module jzjpcc_mem_processor
 	output logic [3:0] memByteMask_execute
 );
 
+logic [1:0] byteOffset;
+assign byteOffset = aluResult_execute[1:0];
+
+//Byte Mask Logic
+always_comb
+begin
+	//if ()//TODO funct 3
+end
+
+
+//Data to write logic
+always_comb
+begin
+
+end
 //TODO
 
 endmodule

@@ -1,6 +1,5 @@
 module jzjpcc_execute
 #(
-	parameter int RAM_A_WIDTH,
 	parameter int PC_MAX_B
 )
 (
@@ -20,14 +19,12 @@ module jzjpcc_execute
 	input logic rdWriteEnable_execute,
 	
 	//Outputs to memory stage
-	output logic [RAM_A_WIDTH - 1:0] memAddress_execute,//For latching by memory address register (combinational)
-	output logic [31:0] aluResult_memory,//Sequential (for writing to reg file)
-	
-	output logic [PC_MAX_B:2] currentPC_memory,//Sequential//Not needed
-	
+	output logic [31:2] memAddress_execute,//For latching by memory address register (combinational)
 	output logic [31:0] memDataToWrite_execute,//Combinational
 	output logic [3:0] memByteMask_execute,//Combinational
 	//output logic memWriteEnable_execute,
+	
+	output logic [31:0] aluResult_memory,//Sequential (for writing to reg file)
 	output logic rdWriteEnable_memory,//Sequential
 	output logic [4:0] rdAddr_memory//Sequential
 	
@@ -44,13 +41,11 @@ begin
 	if (reset)
 	begin
 		aluResult_memory <= 32'h0;
-		currentPC_memory <= 0;
 		rdWriteEnable_memory <= 1'b0;
 	end
 	else if (clock)
 	begin
 		aluResult_memory <= aluResult_execute;
-		currentPC_memory <= currentPC_execute;
 		rdWriteEnable_memory <= rdWriteEnable_execute;
 		rdAddr_memory <= rdAddr_execute;
 	end
