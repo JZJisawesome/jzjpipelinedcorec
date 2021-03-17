@@ -1,7 +1,7 @@
 module jzjpcc_alu
 (
 	//Control signals
-	jzjpcc_execute_if.execute executeIF,
+	jzjpcc_execute_if.execute executeIF,//TODO just pass needed ports to submodules like this
 	/*
 	input logic [2:0] aluOperation_execute,//Same encoding as funct 3
 	input logic aluMod_execute,//If 1, will sub instead of add and will sra instead of srl

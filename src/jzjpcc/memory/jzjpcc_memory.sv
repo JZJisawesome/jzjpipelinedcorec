@@ -5,6 +5,8 @@ module jzjpcc_memory
 	input logic reset,
 	
 	//Inputs from execute
+	jzjpcc_memory_if.memory memoryIF,
+	/*
 	input logic [31:2] memAddress_execute,//For latching by memory address register (combinational)
 	input logic [31:0] memDataToWrite_execute,//Combinational
 	input logic [3:0] memByteMask_execute,//Combinational
@@ -12,6 +14,7 @@ module jzjpcc_memory
 	input logic [31:0] aluResult_memory,//Sequential (for writing to reg file)
 	input logic rdWriteEnable_memory,//Sequential
 	input logic [4:0] rdAddr_memory,//Sequential
+	*/
 	
 	//Outputs to writeback
 	output logic [4:0] rdAddr_writeback,
@@ -28,9 +31,9 @@ module jzjpcc_memory
 	input logic [31:0] memDataRead_memory
 );
 
-assign memAddress_execute_frommemory = memAddress_execute;
-assign memDataToWrite_execute_frommemory = memDataToWrite_execute;
-assign memByteMask_execute_frommemory = memByteMask_execute;
+assign memAddress_execute_frommemory = memoryIF.memAddress;
+assign memDataToWrite_execute_frommemory = memoryIF.memDataToWrite;
+assign memByteMask_execute_frommemory = memoryIF.memByteMask;
 
 //Writeback output logic
 always_ff @(posedge clock, posedge reset)
@@ -41,11 +44,11 @@ begin
 	end
 	else if (clock)
 	begin
-		rdAddr_writeback <= rdAddr_memory;
-		rdWriteEnable_writeback <= rdWriteEnable_memory;
+		rdAddr_writeback <= memoryIF.rdAddr;
+		rdWriteEnable_writeback <= memoryIF.rdWriteEnable;
 		//rdSource_writeback//TODO
 		//memoryOut_writeback
-		aluResult_writeback <= aluResult_memory;
+		aluResult_writeback <= memoryIF.aluResult;
 	end
 end
 

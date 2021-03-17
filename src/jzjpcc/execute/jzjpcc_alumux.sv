@@ -3,7 +3,7 @@ module jzjpcc_alumux
 	parameter int PC_MAX_B
 )
 (
-	jzjpcc_execute_if.execute executeIF,
+	jzjpcc_execute_if.execute executeIF,//TODO just pass needed ports to submodules like this
 
 	//Selection lines
 	//input logic [1:0] aluMuxMode_execute,//2'b00 for rs1 and rs2, 2'b01 for rs1 and immediate, 2'b10 for pc and constant 4, 2'b11 for pc and immediate

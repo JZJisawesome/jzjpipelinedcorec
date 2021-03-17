@@ -41,28 +41,17 @@ logic flush_execute;
 //Execute
 jzjpcc_execute_if #(.PC_MAX_B(PC_MAX_B)) executeIF ();
 
-//TODO remove these
-/*
-logic [2:0] aluOperation_execute;
-logic aluMod_execute;
-logic [1:0] aluMuxMode_execute;
-logic rdWriteEnable_execute;
-logic [31:0] immediate_execute;
-logic [31:0] rs1_execute;
-logic [31:0] rs2_execute;
-logic [PC_MAX_B:2] currentPC_execute;
-logic [4:0] rdAddr_execute;
-*/
-
 //For memory
-logic [31:2] memAddress_execute;//For latching by memory address register (combinational)
-logic [31:0] memDataToWrite_execute;//Combinational
-logic [3:0] memByteMask_execute;//Combinational
+//logic [31:2] memAddress_execute;//For latching by memory address register (combinational)
+//logic [31:0] memDataToWrite_execute;//Combinational
+//logic [3:0] memByteMask_execute;//Combinational
 
 //Memory
-logic [31:0] aluResult_memory;//Sequential (for writing to reg file)
-logic rdWriteEnable_memory;//Sequential
-logic [4:0] rdAddr_memory;//Sequential
+jzjpcc_memory_if memoryIF ();
+
+//logic [31:0] aluResult_memory;//Sequential (for writing to reg file)
+//logic rdWriteEnable_memory;//Sequential
+//logic [4:0] rdAddr_memory;//Sequential
 
 //Writeback
 logic [4:0] rdAddr_writeback;

@@ -14,19 +14,6 @@ module jzjpcc_decode
 	//Outputs to execute stage
 	jzjpcc_execute_if.decode executeIF,
 	
-	/*
-	output logic [31:0] immediate_execute,
-	output logic [31:0] rs1_execute,
-	output logic [31:0] rs2_execute,
-	output logic [PC_MAX_B:2] currentPC_execute,
-	output logic [4:0] rdAddr_execute,//TODO might need flushing
-	//TODO also control logic
-	output logic [2:0] aluOperation_execute,
-	output logic aluMod_execute,
-	output logic [1:0] aluMuxMode_execute,
-	output logic rdWriteEnable_execute,
-	*/
-	
 	//I/O from/to register file
 	output logic [4:0] rs1Addr_decode,
 	output logic [4:0] rs2Addr_decode,
