@@ -24,12 +24,14 @@ logic rdWriteEnable;
 
 modport decode
 (
-	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable
+	inout immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable
+	//output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 modport execute
 (
-	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable
+	inout immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable
+	//input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 endinterface

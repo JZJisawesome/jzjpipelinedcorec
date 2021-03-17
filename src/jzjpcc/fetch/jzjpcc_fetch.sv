@@ -30,7 +30,7 @@ logic [PC_MAX_B:2] currentPC_fetch;
 logic [PC_MAX_B:2] nextPC;
 
 //For instruction memory
-assign instructionAddressToLatch = nextPC;
+assign instructionAddressToLatch = nextPC;//TODO this will need to be different for the first instruction
 
 //Sequential logic
 always_ff @(posedge clock, posedge reset)

@@ -7,6 +7,8 @@ module jzjpcc_execute
 	input logic reset,
 	
 	//Inputs from decode
+	jzjpcc_execute_if.execute executeIF,
+	/*
 	input logic [31:0] immediate_execute,
 	input logic [31:0] rs1_execute,
 	input logic [31:0] rs2_execute,
@@ -17,6 +19,7 @@ module jzjpcc_execute
 	input logic aluMod_execute,
 	input logic [1:0] aluMuxMode_execute,
 	input logic rdWriteEnable_execute,
+	*/
 	
 	//Outputs to memory stage
 	output logic [31:2] memAddress_execute,//For latching by memory address register (combinational)
@@ -46,8 +49,8 @@ begin
 	else if (clock)
 	begin
 		aluResult_memory <= aluResult_execute;
-		rdWriteEnable_memory <= rdWriteEnable_execute;
-		rdAddr_memory <= rdAddr_execute;
+		rdWriteEnable_memory <= executeIF.rdWriteEnable;
+		rdAddr_memory <= executeIF.rdAddr;
 	end
 end
 

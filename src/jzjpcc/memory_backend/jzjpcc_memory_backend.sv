@@ -32,8 +32,8 @@ assign instruction_fetch = toBigEndian32(littleEndianInstruction) >> 2;//Discard
 
 /* Modules */
 
-jzjpcc_inferred_sram #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH)) sram 
-							(.addressA(instructionAddressToLatch), .readA(littleEndianInstruction), .writeEnableA(0), .byteWriteMaskA(4'b0), .writeA(32'h0));
+jzjpcc_inferred_sram #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH)) sram (.clock,
+							.addressA(instructionAddressToLatch), .readA(littleEndianInstruction), .writeEnableA(0), .byteWriteMaskA(4'b0), .writeA(32'h0));
 							//TODO Feed port b to address decoder for use in memory stage of pipeline
 
 endmodule

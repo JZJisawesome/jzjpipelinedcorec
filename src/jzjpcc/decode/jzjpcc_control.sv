@@ -5,7 +5,7 @@ module jzjpcc_control
 	//Control outputs for stages after decode
 	output logic [2:0] aluOperation_decode,
 	output logic aluMod_decode,
-	output logic [1:0] aluMuxMode_execute,
+	output logic [1:0] aluMuxMode_decode,
 	output logic rdWriteEnable_decode
 );
 
@@ -44,6 +44,8 @@ begin
 			else
 				aluMod_decode = 1'b0;
 			
+			aluMuxMode_decode = 2'b01;
+			
 			rdWriteEnable_decode = 1;
 			//TODO finish
 		end
@@ -51,6 +53,7 @@ begin
 		begin
 			aluOperation_decode = 3'b000;//Adding
 			aluMod_decode = 0;
+			aluMuxMode_decode = 2'b11;
 			rdWriteEnable_decode = 1;
 			//TODO finish
 		end
@@ -58,6 +61,7 @@ begin
 		begin
 			aluOperation_decode = 3'b000;//Adding
 			aluMod_decode = 0;
+			aluMuxMode_decode = 2'b01;
 			rdWriteEnable_decode = 1;
 			//TODO finish
 		end
@@ -65,6 +69,7 @@ begin
 		begin
 			aluOperation_decode = funct3;
 			aluMod_decode = funct7[5];
+			aluMuxMode_decode = 2'b00;
 			rdWriteEnable_decode = 1;
 			//TODO finish
 		end
@@ -72,6 +77,7 @@ begin
 		begin
 			aluOperation_decode = 3'b000;//Adding
 			aluMod_decode = 0;
+			aluMuxMode_decode = 2'b01;
 			rdWriteEnable_decode = 1;
 			//TODO finish
 		end
@@ -79,6 +85,7 @@ begin
 		begin
 			aluOperation_decode = 3'bxxx;
 			aluMod_decode = 1'bx;
+			aluMuxMode_decode = 2'bxx;
 			rdWriteEnable_decode = 0;
 			//TODO finish
 		end

@@ -12,6 +12,9 @@ module jzjpcc_decode
 	input logic [PC_MAX_B:2] currentPC_decode,
 	
 	//Outputs to execute stage
+	jzjpcc_execute_if.decode executeIF,
+	
+	/*
 	output logic [31:0] immediate_execute,
 	output logic [31:0] rs1_execute,
 	output logic [31:0] rs2_execute,
@@ -22,6 +25,7 @@ module jzjpcc_decode
 	output logic aluMod_execute,
 	output logic [1:0] aluMuxMode_execute,
 	output logic rdWriteEnable_execute,
+	*/
 	
 	//I/O from/to register file
 	output logic [4:0] rs1Addr_decode,
@@ -50,14 +54,15 @@ assign rs2Addr_decode = instruction_decode[24:20];
 logic [2:0] aluOperation_decode;
 logic aluMod_decode;
 logic rdWriteEnable_decode;
+logic [1:0] aluMuxMode_decode;
 
 //Execute stage output logic
 always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		//TODO reset control to make into a nop
-		rdAddr_execute <= 5'b00000;
+		//TODO reset control logic to make into a nop
+		executeIF.rdAddr <= 5'b00000;
 	end
 	else if (clock)
 	begin
@@ -65,24 +70,24 @@ begin
 		if (flush_execute)
 		begin
 			//TODO flush control to make into a nop
-			rdAddr_execute <= 5'b00000;//Nop is "addi x0, x0, 0"
+			executeIF.rdAddr <= 5'b00000;//Nop is "addi x0, x0, 0"
 		end
 		else
 		begin
 			//Else pass control
-			aluOperation_execute <= aluOperation_decode;
-			aluMod_execute <= aluMod_decode;
-			rdWriteEnable_execute <= rdWriteEnable_decode;
-			
-			rdAddr_execute <= instruction_decode[11:7];
+			executeIF.aluOperation <= aluOperation_decode;
+			executeIF.aluMod <= aluMod_decode;
+			executeIF.rdWriteEnable <= rdWriteEnable_decode;
+			executeIF.aluMuxMode <= aluMuxMode_decode;
+			executeIF.rdAddr <= instruction_decode[11:7];
 		end
 		
 		//Things that don't need to be flushed
 		
-		immediate_execute <= immediate;
-		currentPC_execute <= currentPC_decode;
-		rs1_execute <= rs1_decode;//TODO may need bypassing
-		rs2_execute <= rs2_decode;//TODO may need bypassing
+		executeIF.immediate <= immediate;
+		executeIF.currentPC <= currentPC_decode;
+		executeIF.rs1 <= rs1_decode;//TODO may need bypassing
+		executeIF.rs2 <= rs2_decode;//TODO may need bypassing
 	end
 end
 

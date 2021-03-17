@@ -11,7 +11,7 @@ module jzjpcc_pc//Program counter
 	input logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//Output for rest of fetch stage
-	output logic [PC_MAX_B:2] currentPC_fetch,//Lower bits not needed because instructions are always aligned to words
+	output logic [PC_MAX_B:2] currentPC_fetch = 0,//Lower bits not needed because instructions are always aligned to words
 	output logic [PC_MAX_B:2] nextPC//Combinational, allowing PC to be latched by instruction memory address register at same time (due to Cyclone IV SRAM artececture)
 );
 
