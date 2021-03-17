@@ -25,7 +25,7 @@ module jzjpcc
 );
 localparam int PC_MAX_B = RAM_A_WIDTH + 1;//The program counter is always [RAM_A_WIDTH + 1:2] to cover all word addresses of SRAM
 
-/* Connections */
+/* Connections/Interfaces */
 //Stages
 //Fetch
 logic pcCTWriteEnable;//From decode
@@ -39,6 +39,9 @@ logic [PC_MAX_B:2] currentPC_decode;
 logic flush_execute;
 
 //Execute
+jzjpcc_execute_if #(.PC_MAX_B(PC_MAX_B)) executeIF ();
+
+//TODO remove these
 logic [2:0] aluOperation_execute;
 logic aluMod_execute;
 logic [1:0] aluMuxMode_execute;
@@ -48,6 +51,7 @@ logic [31:0] rs1_execute;
 logic [31:0] rs2_execute;
 logic [PC_MAX_B:2] currentPC_execute;
 logic [4:0] rdAddr_execute;
+
 //For memory
 logic [31:2] memAddress_execute;//For latching by memory address register (combinational)
 logic [31:0] memDataToWrite_execute;//Combinational
