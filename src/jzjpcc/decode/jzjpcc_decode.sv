@@ -1,4 +1,3 @@
-//TODO will tie everything the in the decode stage together
 module jzjpcc_decode
 #(
 	parameter int PC_MAX_B
@@ -40,37 +39,41 @@ assign rs2Addr_decode = instruction_decode[24:20];
 //Control lines
 logic [2:0] aluOperation_decode;
 logic aluMod_decode;
+logic [1:0] aluMuxMode_decode;//TODO expand to allow for lui support
+logic memoryWriteEnable_decode;
+logic rdSource_decode;
 logic rdWriteEnable_decode;
-logic [1:0] aluMuxMode_decode;
 
 //Execute stage output logic
 always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		//TODO reset control logic to make into a nop
-		executeIF.rdAddr <= 5'b00000;
+		executeIF.rdWriteEnable <= 1'b0;
+		executeIF.memoryWriteEnable <= 1'b0;
 	end
 	else if (clock)
 	begin
-		//TODO maybe move this to control?
 		if (flush_execute)
 		begin
-			//TODO flush control to make into a nop
-			executeIF.rdAddr <= 5'b00000;//Nop is "addi x0, x0, 0"
+			executeIF.rdWriteEnable <= 1'b0;
+			executeIF.memoryWriteEnable <= 1'b0;
 		end
 		else
 		begin
 			//Else pass control
-			executeIF.aluOperation <= aluOperation_decode;
-			executeIF.aluMod <= aluMod_decode;
 			executeIF.rdWriteEnable <= rdWriteEnable_decode;
-			executeIF.aluMuxMode <= aluMuxMode_decode;
-			executeIF.rdAddr <= instruction_decode[11:7];
-			executeIF.funct3 <= instruction_decode[14:12];
+			executeIF.memoryWriteEnable <= memoryWriteEnable_decode;
 		end
 		
 		//Things that don't need to be flushed
+		executeIF.aluOperation <= aluOperation_decode;
+		executeIF.aluMod <= aluMod_decode;
+		executeIF.aluMuxMode <= aluMuxMode_decode;
+		executeIF.rdSource <= rdSource_decode;
+
+		executeIF.rdAddr <= instruction_decode[11:7];
+		executeIF.funct3 <= instruction_decode[14:12];
 		
 		executeIF.immediate <= immediate;
 		executeIF.currentPC <= currentPC_decode;
