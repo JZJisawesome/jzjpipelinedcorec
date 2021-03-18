@@ -39,7 +39,7 @@ begin
 end
 
 /* Modules */
-jzjpcc_alu alu (.*, .aluOperation(executeIF.aluOperation), .aluMod(executeIF.aluMod),);
+jzjpcc_alu alu (.*, .aluOperation(executeIF.aluOperation), .aluMod(executeIF.aluMod));
 
 jzjpcc_alumux #(.PC_MAX_B(PC_MAX_B)) aluMultiplexer 	(.*, .aluMuxMode(executeIF.aluMuxMode), .rs1(executeIF.rs1), .currentPC(executeIF.currentPC),
 																		.rs2(executeIF.rs2), .immediate(executeIF.immediate));

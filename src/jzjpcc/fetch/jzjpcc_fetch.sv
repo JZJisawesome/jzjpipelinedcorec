@@ -25,7 +25,7 @@ module jzjpcc_fetch
 	input logic stall_fetch,//New pc won't be latched
 	input logic flush_decode//Flushes instruction_decode to be a nop on the next posedge instead of fetching a new instruction
 );
-//Initialize line is 1 on first posedge after reset
+//Initialize line is 1 on first posedge after reset (Stalls and flushes decode output to nop on first cycle)
 reg initialize = 1;//TODO make into logic; can't do that because we need an initial value of 1
 
 //From program counter
