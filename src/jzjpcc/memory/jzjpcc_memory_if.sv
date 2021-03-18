@@ -13,8 +13,7 @@ logic [4:0] rdAddr;
 logic [3:0] memByteMask;
 
 //Control logic for memory stage (sequential)
-//TODO
-logic memoryWriteEnable;//TODO use
+logic memoryWriteEnable;
 
 //Control lines for other stages (sequential)
 logic rdSource;//0 = aluResult_writeback, 1 = memoryOut_writeback

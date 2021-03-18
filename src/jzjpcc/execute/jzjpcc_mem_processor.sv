@@ -1,9 +1,8 @@
 module jzjpcc_mem_processor
 (
 	//Inputs
-	jzjpcc_execute_if.execute executeIF,//TODO just pass needed ports to submodules like this
 	//TODO needs funct3
-	//input logic [31:0] rs2_execute,
+	input logic [31:0] rs2,
 	input logic [31:0] aluResult_execute,
 	
 	//Outputs

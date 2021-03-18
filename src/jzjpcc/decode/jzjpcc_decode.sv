@@ -67,6 +67,7 @@ begin
 			executeIF.rdWriteEnable <= rdWriteEnable_decode;
 			executeIF.aluMuxMode <= aluMuxMode_decode;
 			executeIF.rdAddr <= instruction_decode[11:7];
+			executeIF.funct3 <= instruction_decode[14:12];
 		end
 		
 		//Things that don't need to be flushed

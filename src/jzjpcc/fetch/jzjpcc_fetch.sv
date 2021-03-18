@@ -25,12 +25,15 @@ module jzjpcc_fetch
 	input logic stall_fetch,//New pc won't be latched
 	input logic flush_decode//Flushes instruction_decode to be a nop on the next posedge instead of fetching a new instruction
 );
+//Initialize line is 1 on first posedge after reset
+reg initialize = 1;//TODO make into logic; can't do that because we need an initial value of 1
+
 //From program counter
 logic [PC_MAX_B:2] currentPC_fetch;
 logic [PC_MAX_B:2] nextPC;
 
 //For instruction memory
-assign instructionAddressToLatch = nextPC;//TODO this will need to be different for the first instruction
+assign instructionAddressToLatch = initialize ? 0 : nextPC;//TODO make the reset vector value the same as the initial pc value by using a parameter
 
 //Sequential logic
 always_ff @(posedge clock, posedge reset)
@@ -42,7 +45,7 @@ begin
 	end
 	else if (clock)
 	begin
-		if (flush_decode)
+		if (initialize || flush_decode)
 		begin
 			instruction_decode <= 32'h00000013 >> 2;//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		end
@@ -54,6 +57,19 @@ begin
 		//Bring currentPC value along to decode stage
 		//If flush_decode is 1, the value doesn't matter because instruction_decode is nop
 		currentPC_decode <= currentPC_fetch;
+	end
+end
+
+//Initialize logic
+always_ff @(posedge clock, posedge reset)
+begin
+	if (reset)
+	begin
+		initialize <= 1'b1;
+	end
+	else if (clock)
+	begin
+		initialize <= 1'b0;
 	end
 end
 

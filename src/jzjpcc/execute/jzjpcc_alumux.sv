@@ -3,18 +3,16 @@ module jzjpcc_alumux
 	parameter int PC_MAX_B
 )
 (
-	jzjpcc_execute_if.execute executeIF,//TODO just pass needed ports to submodules like this
-
 	//Selection lines
-	//input logic [1:0] aluMuxMode_execute,//2'b00 for rs1 and rs2, 2'b01 for rs1 and immediate, 2'b10 for pc and constant 4, 2'b11 for pc and immediate
+	input logic [1:0] aluMuxMode,//2'b00 for rs1 and rs2, 2'b01 for rs1 and immediate, 2'b10 for pc and constant 4, 2'b11 for pc and immediate
 	
 	//Inputs
 	//For operand a
-	//input logic [31:0] rs1_execute,
-	//input logic [PC_MAX_B:2] currentPC_execute,
+	input logic [31:0] rs1,
+	input logic [PC_MAX_B:2] currentPC,
 	//For operand b
-	//input logic [31:0] rs2_execute,
-	//input logic [31:0] immediate_execute,
+	input logic [31:0] rs2,
+	input logic [31:0] immediate,
 	
 	//Outputs
 	output logic [31:0] aluOperandA,//RS1 or the PC
@@ -22,28 +20,28 @@ module jzjpcc_alumux
 );
 
 //Logic
-always_comb
+always_comb//TODO what about LUI?
 begin
-	unique case (executeIF.aluMuxMode)
-		2'b00:
+	unique case (aluMuxMode)
+		2'b00://For register-register operations
 		begin
-			aluOperandA = executeIF.rs1;
-			aluOperandB = executeIF.rs2;
+			aluOperandA = rs1;
+			aluOperandB = rs2;
 		end
-		2'b01:
+		2'b01://For register-immediate operations
 		begin
-			aluOperandA = executeIF.rs1;
-			aluOperandB = executeIF.immediate;
+			aluOperandA = rs1;
+			aluOperandB = immediate;
 		end
-		2'b10:
+		2'b10://For jal and jalr
 		begin
-			aluOperandA = executeIF.currentPC;
+			aluOperandA = currentPC;
 			aluOperandB = 4;
 		end
-		2'b11:
+		2'b11://For auipc
 		begin
-			aluOperandA = executeIF.currentPC;
-			aluOperandB = executeIF.immediate;
+			aluOperandA = currentPC;
+			aluOperandB = immediate;
 		end
 	endcase
 end

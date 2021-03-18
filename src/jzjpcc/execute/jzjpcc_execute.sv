@@ -23,7 +23,7 @@ always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		//memoryIF.aluResult <= 32'h0;
+		memoryIF.memoryWriteEnable <= 1'b0;
 		memoryIF.rdWriteEnable <= 1'b0;
 	end
 	else if (clock)
@@ -39,8 +39,12 @@ begin
 end
 
 /* Modules */
-jzjpcc_alu alu (.*, .aluOperation(executeIF.aluOperation), .aluMod(executeIF.aluMod));
-jzjpcc_alumux #(.PC_MAX_B(PC_MAX_B)) aluMultiplexer (.*);
-jzjpcc_mem_processor memOperandProcessor (.*, .memDataToWrite_execute(memoryIF.memDataToWrite), .memByteMask_execute(memoryIF.memByteMask));
+jzjpcc_alu alu (.*, .aluOperation(executeIF.aluOperation), .aluMod(executeIF.aluMod),);
+
+jzjpcc_alumux #(.PC_MAX_B(PC_MAX_B)) aluMultiplexer 	(.*, .aluMuxMode(executeIF.aluMuxMode), .rs1(executeIF.rs1), .currentPC(executeIF.currentPC),
+																		.rs2(executeIF.rs2), .immediate(executeIF.immediate));
+
+jzjpcc_mem_processor memOperandProcessor (.*, .rs2(executeIF.rs2), .memDataToWrite_execute(memoryIF.memDataToWrite),
+														.memByteMask_execute(memoryIF.memByteMask));
 
 endmodule

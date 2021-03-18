@@ -16,6 +16,7 @@ logic [4:0] rdAddr;//Not used until writeback (other than for hazards)
 logic [2:0] aluOperation;
 logic aluMod;
 logic [1:0] aluMuxMode;
+logic [2:0] funct3;
 
 //Control lines for other stages
 logic memoryWriteEnable;//TODO use
@@ -24,12 +25,12 @@ logic rdWriteEnable;
 
 modport decode
 (
-	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
+	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 modport execute
 (
-	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
+	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
 );
 
 endinterface

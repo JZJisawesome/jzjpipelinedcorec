@@ -6,6 +6,7 @@ module jzjpcc_pc//Program counter
 	input logic clock,
 	input logic reset,
 	
+	input logic initialize,//Acts just like stall_fetch
 	input logic stall_fetch,//New pc (either controlTransferNewPC or nextSequentialPC) won't be latched
 	input logic pcCTWriteEnable,//If disabled, PC will be incremented by 1 instead (assuming stall is 0)
 	input logic [PC_MAX_B:2] controlTransferNewPC,
@@ -29,7 +30,7 @@ begin
 	end
 	else if (clock)
 	begin
-		if (!stall_fetch)
+		if (!(initialize || stall_fetch))
 		begin
 			currentPC_fetch <= nextPC;
 		end//Else currentPC will hold its last state
