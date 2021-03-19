@@ -38,6 +38,7 @@ begin
 		memoryIF.rdAddr <= executeIF.rdAddr;
 		memoryIF.rdSource <= executeIF.rdSource;
 		memoryIF.rdWriteEnable <= executeIF.rdWriteEnable;
+		memoryIF.funct3 <= executeIF.funct3;
 	end
 end
 

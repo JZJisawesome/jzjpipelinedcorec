@@ -46,13 +46,6 @@ jzjpcc_memory_if memoryIF ();
 
 //Writeback
 jzjpcc_writeback_if writebackIF ();
-/*
-logic [4:0] rdAddr_writeback;
-logic rdWriteEnable_writeback;
-logic rdSource_writeback;//0 = aluResult_writeback, 1 = memoryOut_writeback
-logic [31:0] memoryOut_writeback;
-logic [31:0] aluResult_writeback;
-*/
 
 //Common modules
 //Memory backend

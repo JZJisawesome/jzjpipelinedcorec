@@ -25,13 +25,6 @@ module jzjpcc_writeback
 (
 	//Input from memory stage
 	jzjpcc_writeback_if.writeback writebackIF,
-	/*
-	input logic [4:0] rdAddr_writeback,
-	input logic rdWriteEnable_writeback,
-	input logic rdSource_writeback,//0 = aluResult_writeback, 1 = memoryOut_writeback
-	input logic [31:0] memoryOut_writeback,
-	input logic [31:0] aluResult_writeback,
-	*/
 	
 	//Output to register file
 	output logic [4:0] rdAddr_writebackEnd,
@@ -42,8 +35,13 @@ module jzjpcc_writeback
 assign rdWriteEnable_writebackEnd = writebackIF.rdWriteEnable;//No processing needed
 assign rdAddr_writebackEnd = writebackIF.rdAddr;//No processing needed
 
+//Memory output processing
+logic [31:0] processedMemoryOut;
+
+//TODO memory out needs additional processing based on funct3 and memByteMask
+assign processedMemoryOut = writebackIF.memoryOut;
+
 //Multiplex RD source
-//TODO memory out needs additional muxing based on funct3
-assign rd_writebackEnd = writebackIF.rdSource ? writebackIF.memoryOut : writebackIF.aluResult;
+assign rd_writebackEnd = writebackIF.rdSource ? processedMemoryOut : writebackIF.aluResult;
 
 endmodule

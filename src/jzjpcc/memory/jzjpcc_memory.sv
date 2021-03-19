@@ -9,14 +9,6 @@ module jzjpcc_memory
 	
 	//Outputs to writeback
 	jzjpcc_writeback_if.memory writebackIF,
-	/*
-	output logic [4:0] rdAddr_writeback,
-	output logic rdWriteEnable_writeback,
-	output logic rdSource_writeback,//0 = aluResult_writeback, 1 = memoryOut_writeback
-	output logic [31:0] memoryOut_writeback,
-	output logic [31:0] aluResult_writeback,
-	*/
-	//todo funct 3 and offset to select halfword/byte to store to register*******************************************************************************
 	
 	//I/O from/to memory
 	jzjpcc_memory_backend_data_if.stage memDataBackendIF
@@ -43,7 +35,7 @@ begin
 		writebackIF.rdSource <= memoryIF.rdSource;
 		writebackIF.memoryOut <= memDataBackendIF.memDataRead;
 		writebackIF.aluResult <= memoryIF.aluResult;
-		//writebackIF.funct3 <= ;//TODO
+		writebackIF.funct3 <= memoryIF.funct3;
 		
 		memByteMaskSync <= memoryIF.memByteMask;
 		writebackIF.memByteMask <= memByteMaskSync;
