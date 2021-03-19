@@ -38,7 +38,7 @@ begin
 		begin
 			aluOperation_decode = 3'b000;//Adding
 			aluMod_decode = 0;
-			aluMuxMode_decode = 2'b01;
+			aluMuxMode_decode = 2'bxx;
 			memoryWriteEnable_decode = 1'b0;
 			rdSource_decode = 1'b1;//From memory
 			rdWriteEnable_decode = 1'b1;
@@ -79,7 +79,7 @@ begin
 		begin
 			aluOperation_decode = 3'b000;//Adding
 			aluMod_decode = 0;
-			aluMuxMode_decode = 2'b01;
+			aluMuxMode_decode = 2'bxx;
 			memoryWriteEnable_decode = 1'b1;
 			rdSource_decode = 1'bx;
 			rdWriteEnable_decode = 1'b0;

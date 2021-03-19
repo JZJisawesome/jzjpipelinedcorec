@@ -3,7 +3,8 @@
 
 module jzjpcc_fetch
 #(
-	parameter int PC_MAX_B
+	parameter int PC_MAX_B,
+	parameter logic [31:0] RESET_VECTOR
 )
 (
 	input logic clock,
@@ -33,21 +34,22 @@ logic [PC_MAX_B:2] currentPC_fetch;
 logic [PC_MAX_B:2] nextPC;
 
 //For instruction memory
-assign instructionAddressToLatch = initialize ? 0 : nextPC;//TODO make the reset vector value the same as the initial pc value by using a parameter
+localparam PC_BITS = PC_MAX_B - 1;
+assign instructionAddressToLatch = initialize ? PC_BITS'(RESET_VECTOR[31:2]) : nextPC;
 
 //Sequential logic
 always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		instruction_decode <= 32'h00000013 >> 2;//Reset to nop (addi x0, x0, 0 with the low 2 bits chopped off)
+		instruction_decode <= 30'(32'h00000013 >> 2);//Reset to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		//Value of currentPC_decode does not matter because instruction_decode is nop
 	end
 	else if (clock)
 	begin
 		if (initialize || flush_decode)
 		begin
-			instruction_decode <= 32'h00000013 >> 2;//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
+			instruction_decode <= 30'(32'h00000013 >> 2);//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		end
 		else
 		begin
@@ -75,6 +77,6 @@ end
 
 /* Modules */
 
-jzjpcc_pc #(.PC_MAX_B(PC_MAX_B)) programCounter (.*);
+jzjpcc_pc #(.PC_MAX_B(PC_MAX_B), .RESET_VECTOR(RESET_VECTOR)) programCounter (.*);
 
 endmodule

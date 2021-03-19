@@ -17,6 +17,7 @@ assign rdWriteEnable_writebackEnd = rdWriteEnable_writeback;//No processing need
 assign rdAddr_writebackEnd = rdAddr_writeback;//No processing needed
 
 //Multiplex RD source
+//TODO memory out needs additional muxing based on funct3
 assign rd_writebackEnd = rdSource_writeback ? memoryOut_writeback : aluResult_writeback;
 
 endmodule

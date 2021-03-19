@@ -1,6 +1,7 @@
 module jzjpcc_pc//Program counter
 #(
-	parameter int PC_MAX_B
+	parameter int PC_MAX_B,
+	parameter logic [31:0] RESET_VECTOR
 )
 (
 	input logic clock,
@@ -12,12 +13,13 @@ module jzjpcc_pc//Program counter
 	input logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//Output for rest of fetch stage
-	output logic [PC_MAX_B:2] currentPC_fetch = 0,//Lower bits not needed because instructions are always aligned to words
+	output logic [PC_MAX_B:2] currentPC_fetch = PC_BITS'(RESET_VECTOR[31:2]),//Lower bits not needed because instructions are always aligned to words
 	output logic [PC_MAX_B:2] nextPC//Combinational, allowing PC to be latched by instruction memory address register at same time (due to Cyclone IV SRAM artececture)
 );
+localparam PC_BITS = PC_MAX_B - 1;
 
 logic [PC_MAX_B:2] nextSequentialPC;
-assign nextSequentialPC = currentPC_fetch + 1;//Starts at bit 2, so this really adds 4
+assign nextSequentialPC = currentPC_fetch + PC_BITS'(1);//Starts at bit 2, so this really adds 4
 
 assign nextPC = pcCTWriteEnable ? controlTransferNewPC : nextSequentialPC;
 

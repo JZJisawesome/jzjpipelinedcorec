@@ -49,7 +49,7 @@ module jzjpcc_memory_backend
 );
 //Instruction Fetch Logic
 logic [31:0] littleEndianInstruction;
-assign instruction_fetch = toBigEndian32(littleEndianInstruction) >> 2;//Discard lower 2 bits
+assign instruction_fetch = 30'(toBigEndian32(littleEndianInstruction) >> 2);//Discard lower 2 bits
 
 //Data Read/Write Logic
 
