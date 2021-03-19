@@ -92,9 +92,6 @@ begin
 	endcase
 end
 
-//TODO memory out needs additional processing based on funct3 and memByteMask
-//assign processedMemoryOut = writebackIF.memoryOut;
-
 //Multiplex RD source
 assign rd_writebackEnd = writebackIF.rdSource ? processedMemoryOut : writebackIF.aluResult;
 

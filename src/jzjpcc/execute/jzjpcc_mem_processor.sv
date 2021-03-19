@@ -65,7 +65,7 @@ begin
 		end
 		2'b01://Halfword access
 		begin
-			memDataToWrite_execute = toLittleEndian16(byteOffset[1] ? {rs2[15:0], 16'h0} : {16'h0, rs2[15:0]});//Look at halfword offset
+			memDataToWrite_execute = toLittleEndian16(byteOffset[1] ? {16'h0, rs2[15:0]} : {rs2[15:0], 16'h0});//Look at halfword offset
 		end
 		2'b10:
 		begin
