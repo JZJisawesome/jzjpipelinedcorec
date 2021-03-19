@@ -29,15 +29,15 @@ begin
 		2'b00://Byte access
 		begin
 			unique case (byteOffset)
-				2'b00: memByteMask_execute = 4'b0001;//Byte 0
-				2'b01: memByteMask_execute = 4'b0010;//Byte 1
-				2'b10: memByteMask_execute = 4'b0100;//Byte 2
-				2'b11: memByteMask_execute = 4'b1000;//Byte 3
+				2'b00: memByteMask_execute = 4'b1000;//Byte 0
+				2'b01: memByteMask_execute = 4'b0100;//Byte 1
+				2'b10: memByteMask_execute = 4'b0010;//Byte 2
+				2'b11: memByteMask_execute = 4'b0001;//Byte 3
 			endcase
 		end
 		2'b01://Halfword access
 		begin
-			memByteMask_execute = byteOffset[1] ? 4'b1100 : 4'b0011;//Look at halfword offset
+			memByteMask_execute = byteOffset[1] ? 4'b0011 : 4'b1100;//Look at halfword offset
 		end
 		2'b10:
 		begin
@@ -57,10 +57,10 @@ begin
 		2'b00://Byte access
 		begin
 			unique case (byteOffset)
-				2'b00: memDataToWrite_execute = {24'h0, rs2[7:0]};//Byte 0
-				2'b01: memDataToWrite_execute = {16'h0, rs2[7:0], 8'h0};//Byte 1
-				2'b10: memDataToWrite_execute = {8'h0, rs2[7:0], 16'h0};//Byte 2
-				2'b11: memDataToWrite_execute = {rs2[7:0], 24'h0};//Byte 3
+				2'b00: memDataToWrite_execute = {rs2[7:0], 24'h0};//Byte 0
+				2'b01: memDataToWrite_execute = {8'h0, rs2[7:0], 16'h0};//Byte 1
+				2'b10: memDataToWrite_execute = {16'h0, rs2[7:0], 8'h0};//Byte 2
+				2'b11: memDataToWrite_execute = {24'h0, rs2[7:0]};//Byte 3
 			endcase
 		end
 		2'b01://Halfword access

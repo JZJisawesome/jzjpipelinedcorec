@@ -77,17 +77,17 @@ always_comb
 begin
 	//memoryByte processing
 	unique case (writebackIF.memByteMask)
-		4'b0001: memoryByte = writebackIF.memoryOut[31:24];
-		4'b0010: memoryByte = writebackIF.memoryOut[23:16];
-		4'b0100: memoryByte = writebackIF.memoryOut[15:8];
-		4'b1000: memoryByte = writebackIF.memoryOut[7:0];
+		4'b1000: memoryByte = writebackIF.memoryOut[31:24];
+		4'b0100: memoryByte = writebackIF.memoryOut[23:16];
+		4'b0010: memoryByte = writebackIF.memoryOut[15:8];
+		4'b0001: memoryByte = writebackIF.memoryOut[7:0];
 		default: memoryByte = 'x;
 	endcase
 	
 	//memoryHalfword processing
 	unique case (writebackIF.memByteMask)
-		4'b0001: memoryHalfword = writebackIF.memoryOut[31:16];
-		4'b0100: memoryHalfword = writebackIF.memoryOut[15:0];
+		4'b1100: memoryHalfword = writebackIF.memoryOut[31:16];
+		4'b0011: memoryHalfword = writebackIF.memoryOut[15:0];
 		default: memoryHalfword = 'x;
 	endcase
 end
