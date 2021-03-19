@@ -55,10 +55,12 @@ logic [31:0] aluResult_writeback;
 //Memory backend
 logic [31:2] instruction_fetch;
 logic [PC_MAX_B:2] instructionAddressToLatch;
+jzjpcc_memory_backend_data_if memDataBackendIF ();
+/*
 logic [31:2] memAddress_execute_frommemory;
 logic [31:0] memDataToWrite_execute_frommemory;
 logic [3:0] memByteMask_execute_frommemory;
-logic [31:0] memDataRead_memory;
+logic [31:0] memDataRead_memory;*/
 //Register file
 logic [4:0] rs1Addr_decode;
 logic [4:0] rs2Addr_decode;

@@ -11,8 +11,6 @@ logic [4:0] rdAddr;
 
 //Control logic for memory stage (combinational)
 logic [3:0] memByteMask;
-
-//Control logic for memory stage (sequential)
 logic memoryWriteEnable;
 
 //Control lines for other stages (sequential)

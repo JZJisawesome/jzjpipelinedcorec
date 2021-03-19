@@ -1,3 +1,29 @@
+interface jzjpcc_memory_backend_data_if
+();
+
+//Connections
+//In execute stage (latched by Cyclone address registers/bytemask registers/data in registers)
+logic memWriteEnable;
+logic [31:2] memAddress;
+logic [31:0] memDataToWrite;
+logic [3:0] memByteMask;
+//In memory stage
+logic [31:0] memDataRead;
+
+modport backend
+(
+	input memWriteEnable, memAddress, memDataToWrite, memByteMask,
+	output memDataRead
+);
+
+modport stage
+(
+	input memDataRead,
+	output memWriteEnable, memAddress, memDataToWrite, memByteMask
+);
+
+endinterface
+
 import jzjpcc_endianness_functions::toBigEndian32;
 
 module jzjpcc_memory_backend
@@ -14,11 +40,13 @@ module jzjpcc_memory_backend
 	output logic [31:2] instruction_fetch,//Big endian
 	input logic [PC_MAX_B:2] instructionAddressToLatch,
 	
-	//Memory stage (Combinational execute output is latched by the memory stage)
-	input logic [31:2] memAddress_execute_frommemory,
-	input logic [31:0] memDataToWrite_execute_frommemory,
-	input logic [3:0] memByteMask_execute_frommemory,
-	output logic [31:0] memDataRead_memory,
+	//Memory stage
+	jzjpcc_memory_backend_data_if.backend memDataBackendIF,
+	//(Combinational execute output is latched by the memory stage)
+	//input logic [31:2] memAddress_execute_frommemory,
+	//input logic [31:0] memDataToWrite_execute_frommemory,
+	//input logic [3:0] memByteMask_execute_frommemory,
+	//output logic [31:0] memDataRead_memory,
 	
 	//MMIO Output
 	input logic [31:0] mmioInputs [8],

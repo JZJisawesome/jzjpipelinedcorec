@@ -13,18 +13,20 @@ module jzjpcc_memory
 	output logic rdSource_writeback,//0 = aluResult_writeback, 1 = memoryOut_writeback
 	output logic [31:0] memoryOut_writeback,
 	output logic [31:0] aluResult_writeback,
-	//todo memDataRead_writeback
+	//todo funct 3 and offset to select halfword/byte to store to register*******************************************************************************
 	
 	//I/O from/to memory
-	output logic [31:2] memAddress_execute_frommemory,
-	output logic [31:0] memDataToWrite_execute_frommemory,
-	output logic [3:0] memByteMask_execute_frommemory,
-	input logic [31:0] memDataRead_memory
+	jzjpcc_memory_backend_data_if.stage memDataBackendIF
+	//output logic [31:2] memAddress_execute_frommemory,
+	//output logic [31:0] memDataToWrite_execute_frommemory,
+	//output logic [3:0] memByteMask_execute_frommemory,
+	//input logic [31:0] memDataRead_memory
 );
 
-assign memAddress_execute_frommemory = memoryIF.memAddress;
-assign memDataToWrite_execute_frommemory = memoryIF.memDataToWrite;
-assign memByteMask_execute_frommemory = memoryIF.memByteMask;
+assign memDataBackendIF.memWriteEnable = memoryIF.memoryWriteEnable;
+assign memDataBackendIF.memAddress = memoryIF.memAddress;
+assign memDataBackendIF.memDataToWrite = memoryIF.memDataToWrite;
+assign memDataBackendIF.memByteMask = memoryIF.memByteMask;
 
 //Writeback output logic
 always_ff @(posedge clock, posedge reset)
@@ -37,8 +39,8 @@ begin
 	begin
 		rdAddr_writeback <= memoryIF.rdAddr;
 		rdWriteEnable_writeback <= memoryIF.rdWriteEnable;
-		//rdSource_writeback//TODO
-		//memoryOut_writeback
+		rdSource_writeback <= memoryIF.rdSource;
+		memoryOut_writeback <= memDataBackendIF.memDataRead;
 		aluResult_writeback <= memoryIF.aluResult;
 	end
 end

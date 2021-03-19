@@ -12,6 +12,9 @@ module jzjpcc_execute
 	//Outputs to memory stage
 	jzjpcc_memory_if.execute memoryIF
 );
+//Latched by sram register, not here
+assign memoryIF.memoryWriteEnable = executeIF.memoryWriteEnable;
+
 logic [31:0] aluOperandA;
 logic [31:0] aluOperandB;
 logic [31:0] aluResult_execute;
@@ -23,7 +26,6 @@ always_ff @(posedge clock, posedge reset)
 begin
 	if (reset)
 	begin
-		memoryIF.memoryWriteEnable <= 1'b0;
 		memoryIF.rdWriteEnable <= 1'b0;
 	end
 	else if (clock)
@@ -32,7 +34,6 @@ begin
 		
 		//Passthrough things for later stages
 		memoryIF.rdAddr <= executeIF.rdAddr;
-		memoryIF.memoryWriteEnable <= executeIF.memoryWriteEnable;
 		memoryIF.rdSource <= executeIF.rdSource;
 		memoryIF.rdWriteEnable <= executeIF.rdWriteEnable;
 	end
