@@ -1,3 +1,6 @@
+import jzjpcc_endianness_functions::toLittleEndian32;
+import jzjpcc_endianness_functions::toLittleEndian16;
+
 module jzjpcc_mem_processor
 (
 	//Inputs
@@ -62,11 +65,11 @@ begin
 		end
 		2'b01://Halfword access
 		begin
-			memDataToWrite_execute = byteOffset[1] ? {rs2[15:0], 16'h0} : {16'h0, rs2[15:0]};//Look at halfword offset
+			memDataToWrite_execute = toLittleEndian16(byteOffset[1] ? {rs2[15:0], 16'h0} : {16'h0, rs2[15:0]});//Look at halfword offset
 		end
 		2'b10:
 		begin
-			memDataToWrite_execute = rs2;//Don't do anything to rs2
+			memDataToWrite_execute = toLittleEndian32(rs2);//Don't do anything to rs2
 		end
 		default:
 		begin
