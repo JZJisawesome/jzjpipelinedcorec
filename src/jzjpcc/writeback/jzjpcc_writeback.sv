@@ -54,7 +54,7 @@ begin
 		end
 		3'b001://lh
 		begin
-			processedMemoryOut = {{16{memoryHalfword[5]}}, memoryHalfword};
+			processedMemoryOut = {{16{memoryHalfword[15]}}, memoryHalfword};
 		end
 		3'b010://lw
 		begin
@@ -86,8 +86,8 @@ begin
 	
 	//memoryHalfword processing
 	unique case (writebackIF.memByteMask)
-		4'b1100: memoryHalfword = writebackIF.memoryOut[31:16];
-		4'b0011: memoryHalfword = writebackIF.memoryOut[15:0];
+		4'b1100: memoryHalfword = toBigEndian16(writebackIF.memoryOut[31:16]);
+		4'b0011: memoryHalfword = toBigEndian16(writebackIF.memoryOut[15:0]);
 		default: memoryHalfword = 'x;
 	endcase
 end
