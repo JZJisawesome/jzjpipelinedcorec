@@ -13,14 +13,16 @@ module jzjpcc_execute
 	jzjpcc_memory_if.execute memoryIF
 );
 //Latched by sram register, not here
+logic [31:2] memAddress_execute;
 assign memoryIF.memoryWriteEnable = executeIF.memoryWriteEnable;
+assign memoryIF.memAddress = memAddress_execute;
 
 logic [31:0] aluOperandA;
 logic [31:0] aluOperandB;
 logic [31:0] aluResult_execute;
 
 //Logic stuffs
-assign memAddress_execute = aluResult_execute[31:2];//Offset handled by byte mask logic
+//assign memAddress_execute = aluResult_execute[31:2];//Offset handled by byte mask logic
 
 always_ff @(posedge clock, posedge reset)
 begin
@@ -45,7 +47,7 @@ jzjpcc_alu alu (.*, .aluOperation(executeIF.aluOperation), .aluMod(executeIF.alu
 jzjpcc_alumux #(.PC_MAX_B(PC_MAX_B)) aluMultiplexer 	(.*, .aluMuxMode(executeIF.aluMuxMode), .rs1(executeIF.rs1), .currentPC(executeIF.currentPC),
 																		.rs2(executeIF.rs2), .immediate(executeIF.immediate));
 
-jzjpcc_mem_processor memOperandProcessor (.*, .funct3(executeIF.funct3), .rs2(executeIF.rs2), .memDataToWrite_execute(memoryIF.memDataToWrite),
-														.memByteMask_execute(memoryIF.memByteMask));
+jzjpcc_mem_processor memOperandProcessor (.*, .funct3(executeIF.funct3), .rs2(executeIF.rs2), .rs1(executeIF.rs1), .immediateI(executeIF.immediate),
+														.memDataToWrite_execute(memoryIF.memDataToWrite), .memByteMask_execute(memoryIF.memByteMask));
 
 endmodule
