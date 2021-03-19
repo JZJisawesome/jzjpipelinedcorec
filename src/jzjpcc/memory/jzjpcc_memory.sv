@@ -17,10 +17,6 @@ module jzjpcc_memory
 	
 	//I/O from/to memory
 	jzjpcc_memory_backend_data_if.stage memDataBackendIF
-	//output logic [31:2] memAddress_execute_frommemory,
-	//output logic [31:0] memDataToWrite_execute_frommemory,
-	//output logic [3:0] memByteMask_execute_frommemory,
-	//input logic [31:0] memDataRead_memory
 );
 
 assign memDataBackendIF.memWriteEnable = memoryIF.memoryWriteEnable;

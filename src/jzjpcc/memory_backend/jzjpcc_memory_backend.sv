@@ -42,11 +42,6 @@ module jzjpcc_memory_backend
 	
 	//Memory stage
 	jzjpcc_memory_backend_data_if.backend memDataBackendIF,
-	//(Combinational execute output is latched by the memory stage)
-	//input logic [31:2] memAddress_execute_frommemory,
-	//input logic [31:0] memDataToWrite_execute_frommemory,
-	//input logic [3:0] memByteMask_execute_frommemory,
-	//output logic [31:0] memDataRead_memory,
 	
 	//MMIO Output
 	input logic [31:0] mmioInputs [8],
@@ -61,7 +56,9 @@ assign instruction_fetch = toBigEndian32(littleEndianInstruction) >> 2;//Discard
 /* Modules */
 
 jzjpcc_inferred_sram #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH)) sram (.clock,
-							.addressA(instructionAddressToLatch), .readA(littleEndianInstruction), .writeEnableA(0), .byteWriteMaskA(4'b0), .writeA(32'h0));
-							//TODO Feed port b to address decoder for use in memory stage of pipeline
+							.addressA(instructionAddressToLatch), .readA(littleEndianInstruction), .writeEnableA(0), .byteWriteMaskA(4'b0), .writeA(32'h0),
+							//TODO implement address decoder instead of just feeding everything to sram
+							.addressB(memDataBackendIF.memAddress), .readB(memDataBackendIF.memDataRead), .writeEnableB(memDataBackendIF.memWriteEnable),
+							.byteWriteMaskB(memDataBackendIF.memByteMask), .writeB(memDataBackendIF.memDataToWrite));
 
 endmodule
