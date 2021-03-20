@@ -85,6 +85,6 @@ jzjpcc_regfile registerFile (.*);
 jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr), .rdAddr_execute(executeIF.rdAddr),
 										.rdAddr_memory(memoryIF.rdAddr), .rdAddr_writeback(writebackIF.rdAddr), .aluResult_memory(memoryIF.aluResult),
 										.rdWriteEnable_execute(executeIF.rdWriteEnable), .rdWriteEnable_memory(memoryIF.rdWriteEnable),
-										.rdWriteEnable_writeback(writebackIF.rdWriteEnable), .rdSource_execute(executeIF.rdSource));
+										.rdWriteEnable_writeback(writebackIF.rdWriteEnable), .rdSource_execute(executeIF.rdSource), .rdSource_memory(memoryIF.rdSource));
 
 endmodule

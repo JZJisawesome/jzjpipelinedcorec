@@ -24,13 +24,18 @@ module jzjpcc_decode
 	output logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//Hazard control
-	input logic flush_execute
+	input logic flush_execute,
+	
+	//Inputs from hazard unit
+	input logic [31:0] bypassValueRS1_decode,
+	input logic [31:0] bypassValueRS2_decode,
+	input logic bypassRS1_decode,
+	input logic bypassRS2_decode
 );
 //rs1 and rs2 bypass logic
 logic [31:0] realRS1, realRS2;
-//TODO bypassing for rs1 and rs2
-assign realRS1 = rs1_decode;
-assign realRS2 = rs2_decode;
+assign realRS1 = bypassRS1_decode ? bypassValueRS1_decode : rs1_decode;
+assign realRS2 = bypassRS2_decode ? bypassValueRS2_decode : rs2_decode;
 
 //Immediates
 logic [31:0] immediate;

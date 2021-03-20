@@ -1,3 +1,4 @@
+//TODO Understand how this works after copying from Harris and Harris book**************************************************************
 module jzjpcc_hazard_unit
 (
 	//Data hazard detection
@@ -16,9 +17,10 @@ module jzjpcc_hazard_unit
 	input logic rdWriteEnable_writeback,
 	
 	input logic rdSource_execute,
+	input logic rdSource_memory,
 	
 	//Control hazard detection
-	//TODO
+	input logic pcCTWriteEnable,
 	
 	//Stall/flush lines
 	output logic stall_fetch,
@@ -52,12 +54,12 @@ assign flush_execute = memoryStall | controlStall;
 always_comb
 begin
 	//rs1
-	if ((rs1Addr_execute != 0) && (rs1Addr_execute == rdAddr_memory) && rdWriteEnable_memory)
+	if ((rs1Addr_execute != 0) && (rs1Addr_execute == rdAddr_memory) && rdWriteEnable_memory)//Forward from memory stage
 	begin
 		bypassValueRS1_execute = aluResult_memory;
 		bypassRS1_execute = 1'b1;
 	end
-	else if ((rs1Addr_execute != 0) && (rs1Addr_execute == rdAddr_writeback) && rdWriteEnable_writeback)
+	else if ((rs1Addr_execute != 0) && (rs1Addr_execute == rdAddr_writeback) && rdWriteEnable_writeback)//Forward from writeback stage
 	begin
 		bypassValueRS1_execute = rd_writebackEnd;
 		bypassRS1_execute = 1'b1;
@@ -69,12 +71,12 @@ begin
 	end
 	
 	//rs2
-	if ((rs2Addr_execute != 0) && (rs2Addr_execute == rdAddr_memory) && rdWriteEnable_memory)
+	if ((rs2Addr_execute != 0) && (rs2Addr_execute == rdAddr_memory) && rdWriteEnable_memory)//Forward from memory stage
 	begin
 		bypassValueRS2_execute = aluResult_memory;
 		bypassRS2_execute = 1'b1;
 	end
-	else if ((rs2Addr_execute != 0) && (rs2Addr_execute == rdAddr_writeback) && rdWriteEnable_writeback)
+	else if ((rs2Addr_execute != 0) && (rs2Addr_execute == rdAddr_writeback) && rdWriteEnable_writeback)//Forward from writeback stage
 	begin
 		bypassValueRS2_execute = rd_writebackEnd;
 		bypassRS2_execute = 1'b1;
@@ -87,6 +89,16 @@ begin
 end
 
 //Bypass logic for decode stage
+always_comb
+begin
+	//rs1
+	bypassValueRS1_decode = aluResult_memory;//We only every bypass from memory (execute will stall and writeback writes on negedge so its ok)
+	bypassRS1_decode = (rs1Addr_decode != 0) && (rs1Addr_decode == rdAddr_memory) && rdWriteEnable_memory;//Forward from memory stage
+	
+	//rs2
+	bypassValueRS2_decode = aluResult_memory;//We only every bypass from memory (execute will stall and writeback writes on negedge so its ok)
+	bypassRS2_decode = (rs2Addr_decode != 0) && (rs2Addr_decode == rdAddr_memory) && rdWriteEnable_memory;//Forward from memory stage
+end
 
 //Stall logic for memory accesses
 //If there is a memory read pending in the execute stage and we won't be able to bypass it until writeback
@@ -95,6 +107,7 @@ assign memoryStall = (((rs1Addr_decode != 0) && (rs1Addr_decode == rdAddr_execut
 							&& rdSource_execute && rdWriteEnable_execute;
 
 //Stall logic for control instructions
-//assign controlStall = 
+assign controlStall = (pcCTWriteEnable && rdWriteEnable_execute && ((rs1Addr_decode == rdAddr_execute) || (rs2Addr_decode == rdAddr_execute))) ||
+							 (pcCTWriteEnable && rdWriteEnable_memory && rdSource_memory && ((rs1Addr_decode == rdAddr_memory) || (rs2Addr_decode == rdAddr_memory)));
 
 endmodule
