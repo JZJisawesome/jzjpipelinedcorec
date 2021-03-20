@@ -95,5 +95,6 @@ end
 /* Modules */
 jzjpcc_immediateFormer immediateFormer (.*);
 jzjpcc_control control (.*);
+jzjpcc_branch_unit #(.PC_MAX_B(PC_MAX_B)) branchUnit (.*);
 
 endmodule

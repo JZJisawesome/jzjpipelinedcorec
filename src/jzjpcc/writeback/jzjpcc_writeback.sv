@@ -39,6 +39,9 @@ assign rdWriteEnable_writebackEnd = writebackIF.rdWriteEnable;//No processing ne
 assign rdAddr_writebackEnd = writebackIF.rdAddr;//No processing needed
 
 //Memory output processing
+
+//TODO should maybe move this to memory stage************************************************************************************************************
+
 logic [31:0] processedMemoryOut;
 
 logic [15:0] memoryHalfword;

@@ -27,12 +27,7 @@ assign immediateJ = {{12{signBit}}, instruction_decode[19:12], instruction_decod
 //Next stage multiplexer
 //Note: synthesis will optimize things a ton
 
-typedef enum logic[4:0]
-{
-	LOAD = 5'b00000, MISC_MEM = 5'b00011, OP_IMM = 5'b00100, AUIPC = 5'b00101,
-	STORE = 5'b01000, OP = 5'b01100, LUI = 5'b01101, BRANCH = 5'b11000,
-	JALR = 5'b11001, JAL = 5'b11011, SYSTEM = 5'b11100
-} opcode_t;
+typedef enum logic[4:0] {LOAD = 5'b00000, OP_IMM = 5'b00100, AUIPC = 5'b00101, STORE = 5'b01000, LUI = 5'b01101} opcode_t;
 
 opcode_t opcode;
 assign opcode = opcode_t'(instruction_decode[6:2]);
