@@ -22,7 +22,7 @@ assign immediateI = {{21{signBit}}, instruction_decode[30:20]};
 assign immediateS = {{21{signBit}}, instruction_decode[30:25], instruction_decode[11:7]};
 assign immediateB = {{20{signBit}}, instruction_decode[7], instruction_decode[30:25], instruction_decode[11:8], 1'b0};
 assign immediateU = {signBit, instruction_decode[30:12], 12'b0};
-assign immediateJ = {{12{signBit}}, instruction_decode[19:12], instruction_decode[20], instruction_decode[30:21]};
+assign immediateJ = {{12{signBit}}, instruction_decode[19:12], instruction_decode[20], instruction_decode[30:21], 1'b0};
 
 //Next stage multiplexer
 //Note: synthesis will optimize things a ton

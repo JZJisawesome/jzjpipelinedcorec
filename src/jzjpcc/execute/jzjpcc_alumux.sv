@@ -35,7 +35,7 @@ begin
 		end
 		2'b10://For jal and jalr
 		begin
-			aluOperandA = currentPC;
+			aluOperandA = 32'(currentPC);
 			aluOperandB = 4;
 		end
 		2'b11://For auipc
