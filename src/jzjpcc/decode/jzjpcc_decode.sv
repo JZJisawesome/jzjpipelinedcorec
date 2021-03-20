@@ -14,8 +14,8 @@ module jzjpcc_decode
 	jzjpcc_execute_if.decode executeIF,
 	
 	//I/O from/to register file
-	output logic [4:0] rs1Addr_decode,
-	output logic [4:0] rs2Addr_decode,
+	output logic [4:0] rs1Addr_decode,//Also used by hazard unit
+	output logic [4:0] rs2Addr_decode,//Also used by hazard unit
 	input logic [31:0] rs1_decode,
 	input logic [31:0] rs2_decode,
 	
@@ -79,6 +79,10 @@ begin
 		executeIF.currentPC <= currentPC_decode;
 		executeIF.rs1 <= rs1_decode;//TODO may need bypassing
 		executeIF.rs2 <= rs2_decode;//TODO may need bypassing
+		
+		//Used by hazard unit
+		executeIF.rs1Addr <= rs1Addr_decode;
+		executeIF.rs2Addr <= rs2Addr_decode;
 	end
 end
 

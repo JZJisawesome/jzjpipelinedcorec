@@ -23,14 +23,18 @@ logic memoryWriteEnable;//TODO use
 logic rdSource;//0 = aluResult_writeback, 1 = memoryOut_writeback
 logic rdWriteEnable;
 
+//Lines solely used for hazard unit
+logic [4:0] rs1Addr;
+logic [4:0] rs2Addr;
+
 modport decode
 (
-	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
+	output immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable, rs1Addr, rs2Addr
 );
 
 modport execute
 (
-	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable//Does not play nice with RTL viewer
+	input immediate, rs1, rs2, currentPC, rdAddr, aluOperation, aluMod, aluMuxMode, funct3, memoryWriteEnable, rdSource, rdWriteEnable
 );
 
 endinterface

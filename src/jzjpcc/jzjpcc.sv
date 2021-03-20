@@ -72,5 +72,6 @@ jzjpcc_writeback writebackStage (.*);
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
 jzjpcc_regfile registerFile (.*);
+jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr));
 
 endmodule
