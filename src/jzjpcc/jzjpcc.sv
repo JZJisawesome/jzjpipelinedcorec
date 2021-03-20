@@ -61,6 +61,16 @@ logic [4:0] rdAddr_writebackEnd;
 logic [31:0] rd_writebackEnd;//Written on negative edge
 logic rdWriteEnable_writebackEnd;
 
+//Hazard Unit Bypass
+logic [31:0] bypassValueRS1_decode;
+logic [31:0] bypassValueRS1_execute;
+logic [31:0] bypassValueRS2_decode;
+logic [31:0] bypassValueRS2_execute;
+logic bypassRS1_decode;
+logic bypassRS1_execute;
+logic bypassRS2_decode;
+logic bypassRS2_execute;
+
 /* Modules */
 //Stages
 jzjpcc_fetch #(.PC_MAX_B(PC_MAX_B), .RESET_VECTOR(RESET_VECTOR)) fetchStage (.*);
@@ -72,6 +82,8 @@ jzjpcc_writeback writebackStage (.*);
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
 jzjpcc_regfile registerFile (.*);
-jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr));
+jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr), .rdAddr_memory(memoryIF.rdAddr),
+										.aluResult_memory(memoryIF.aluResult), .rdAddr_writeback(writebackIF.rdAddr), .rdWriteEnable_memory(memoryIF.rdWriteEnable),
+										.rdWriteEnable_writeback(writebackIF.rdWriteEnable));
 
 endmodule
