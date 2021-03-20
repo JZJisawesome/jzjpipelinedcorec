@@ -20,12 +20,18 @@ module jzjpcc_decode
 	input logic [31:0] rs2_decode,
 	
 	//Control of fetch stage for deciding next pc
-	input logic pcCTWriteEnable,//Whether controlTransferNewPC or the next sequential pc must be latched
-	input logic [PC_MAX_B:2] controlTransferNewPC,
+	output logic pcCTWriteEnable,//Whether controlTransferNewPC or the next sequential pc must be latched
+	output logic [PC_MAX_B:2] controlTransferNewPC,
 	
 	//Hazard control
 	input logic flush_execute
 );
+//rs1 and rs2 bypass logic
+logic [31:0] realRS1, realRS2;
+//TODO bypassing for rs1 and rs2
+assign realRS1 = rs1_decode;
+assign realRS2 = rs2_decode;
+
 //Immediates
 logic [31:0] immediate;
 logic [31:0] immediateI;
@@ -77,8 +83,8 @@ begin
 		
 		executeIF.immediate <= immediate;
 		executeIF.currentPC <= currentPC_decode;
-		executeIF.rs1 <= rs1_decode;//TODO may need bypassing
-		executeIF.rs2 <= rs2_decode;//TODO may need bypassing
+		executeIF.rs1 <= realRS1;
+		executeIF.rs2 <= realRS2;
 		
 		//Used by hazard unit
 		executeIF.rs1Addr <= rs1Addr_decode;

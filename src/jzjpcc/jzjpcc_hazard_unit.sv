@@ -90,9 +90,11 @@ end
 
 //Stall logic for memory accesses
 //If there is a memory read pending in the execute stage and we won't be able to bypass it until writeback
-assign memoryStall = (((rs1Addr_decode != 0) && (rs1Addr_decode == rdAddr_execute)) || ((rs1Addr_decode != 0) && (rs2Addr_decode == rdAddr_execute)))
+assign memoryStall = (((rs1Addr_decode != 0) && (rs1Addr_decode == rdAddr_execute)) ||
+							((rs1Addr_decode != 0) && (rs2Addr_decode == rdAddr_execute)))
 							&& rdSource_execute && rdWriteEnable_execute;
 
 //Stall logic for control instructions
+//assign controlStall = 
 
 endmodule
