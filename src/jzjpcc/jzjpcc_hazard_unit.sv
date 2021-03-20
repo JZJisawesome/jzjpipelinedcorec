@@ -7,19 +7,22 @@ module jzjpcc_hazard_unit
 	input logic [4:0] rs2Addr_decode,
 	input logic [4:0] rs2Addr_execute,
 	
-	//input logic [4:0] rdAddr_execute,//Not sure if this will be needed
+	input logic [4:0] rdAddr_execute,
 	input logic [4:0] rdAddr_memory,
 	input logic [4:0] rdAddr_writeback,
 	
+	input logic rdWriteEnable_execute,
 	input logic rdWriteEnable_memory,
 	input logic rdWriteEnable_writeback,
+	
+	input logic rdSource_execute,
 	
 	//Control hazard detection
 	//TODO
 	
 	//Stall/flush lines
 	output logic stall_fetch,
-	output logic flush_decode,
+	output logic stall_decode,
 	output logic flush_execute,
 	
 	//Bypass values in
@@ -42,7 +45,7 @@ logic memoryStall;//Due to a memory access
 logic controlStall;//Due to a branch or unconditional jump instruction
 
 assign stall_fetch = memoryStall | controlStall;
-//assign flush_decode = memoryStall | controlStall;
+assign stall_decode = memoryStall | controlStall;
 assign flush_execute = memoryStall | controlStall;
 
 //Bypass logic for execute stage
@@ -85,6 +88,11 @@ end
 
 //Bypass logic for decode stage
 
-//Stall logic fo
+//Stall logic for memory accesses
+//If there is a memory read pending in the execute stage and we won't be able to bypass it until writeback
+assign memoryStall = (((rs1Addr_decode != 0) && (rs1Addr_decode == rdAddr_execute)) || ((rs1Addr_decode != 0) && (rs2Addr_decode == rdAddr_execute)))
+							&& rdSource_execute && rdWriteEnable_execute;
+
+//Stall logic for control instructions
 
 endmodule

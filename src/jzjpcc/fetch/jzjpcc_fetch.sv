@@ -24,7 +24,7 @@ module jzjpcc_fetch
 	
 	//Hazard control
 	input logic stall_fetch,//New pc won't be latched
-	input logic flush_decode//Flushes instruction_decode to be a nop on the next posedge instead of fetching a new instruction
+	input logic stall_decode//New instruction won't be latched
 );
 //Initialize line is 1 on first posedge after reset (Stalls and flushes decode output to nop on first cycle)
 reg initialize = 1;//TODO make into logic; can't do that because we need an initial value of 1
@@ -47,18 +47,15 @@ begin
 	end
 	else if (clock)
 	begin
-		if (initialize || flush_decode)
+		if (initialize)
 		begin
 			instruction_decode <= 30'(32'h00000013 >> 2);//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		end
-		else
+		else if (!stall_decode)
 		begin
 			instruction_decode <= instruction_fetch;//Bring instruction combinationally fetched from SRAM to decode stage
+			currentPC_decode <= currentPC_fetch;//Bring currentPC value along to decode stage
 		end
-		
-		//Bring currentPC value along to decode stage
-		//If flush_decode is 1, the value doesn't matter because instruction_decode is nop
-		currentPC_decode <= currentPC_fetch;
 	end
 end
 

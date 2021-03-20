@@ -31,7 +31,7 @@ localparam int PC_MAX_B = RAM_A_WIDTH + 1;//The program counter is always [RAM_A
 logic pcCTWriteEnable;//From decode
 logic [PC_MAX_B:2] controlTransferNewPC;//From decode
 logic stall_fetch;
-logic flush_decode;
+logic stall_decode;
 
 //Decode
 logic [31:2] instruction_decode;
@@ -82,8 +82,9 @@ jzjpcc_writeback writebackStage (.*);
 //Common modules
 jzjpcc_memory_backend #(.INITIAL_MEM_CONTENTS(INITIAL_MEM_CONTENTS), .RAM_A_WIDTH(RAM_A_WIDTH), .PC_MAX_B(PC_MAX_B)) memoryBackend (.*);
 jzjpcc_regfile registerFile (.*);
-jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr), .rdAddr_memory(memoryIF.rdAddr),
-										.aluResult_memory(memoryIF.aluResult), .rdAddr_writeback(writebackIF.rdAddr), .rdWriteEnable_memory(memoryIF.rdWriteEnable),
-										.rdWriteEnable_writeback(writebackIF.rdWriteEnable));
+jzjpcc_hazard_unit hazardUnit (.*, .rs1Addr_execute(executeIF.rs1Addr), .rs2Addr_execute(executeIF.rs2Addr), .rdAddr_execute(executeIF.rdAddr),
+										.rdAddr_memory(memoryIF.rdAddr), .rdAddr_writeback(writebackIF.rdAddr), .aluResult_memory(memoryIF.aluResult),
+										.rdWriteEnable_execute(executeIF.rdWriteEnable), .rdWriteEnable_memory(memoryIF.rdWriteEnable),
+										.rdWriteEnable_writeback(writebackIF.rdWriteEnable), .rdSource_execute(executeIF.rdSource));
 
 endmodule
