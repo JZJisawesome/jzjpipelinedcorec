@@ -14,10 +14,19 @@ module jzjpcc_alumux
 	input logic [31:0] rs2,
 	input logic [31:0] immediate,
 	
+	//Inputs from hazard unit
+	input logic [31:0] bypassValueRS1_execute,
+	input logic [31:0] bypassValueRS2_execute,
+	input logic bypassRS1_execute,
+	input logic bypassRS2_execute,
+	
 	//Outputs
 	output logic [31:0] aluOperandA,//RS1 or the PC
 	output logic [31:0] aluOperandB//RS2, immediate value, or the constant 4
 );
+logic [31:0] realRS1, realRS2;
+assign realRS1 = bypassRS1_execute ? bypassValueRS1_execute : rs1;
+assign realRS2 = bypassRS2_execute ? bypassValueRS2_execute : rs2;
 
 //Logic
 always_comb//TODO what about LUI?
@@ -25,12 +34,12 @@ begin
 	unique case (aluMuxMode)
 		2'b00://For register-register operations
 		begin
-			aluOperandA = rs1;
-			aluOperandB = rs2;
+			aluOperandA = realRS1;
+			aluOperandB = realRS2;
 		end
 		2'b01://For register-immediate operations
 		begin
-			aluOperandA = rs1;
+			aluOperandA = realRS1;
 			aluOperandB = immediate;
 		end
 		2'b10://For jal and jalr

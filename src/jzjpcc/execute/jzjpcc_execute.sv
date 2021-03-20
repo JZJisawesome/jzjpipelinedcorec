@@ -51,7 +51,13 @@ module jzjpcc_execute
 	jzjpcc_execute_if.execute executeIF,
 	
 	//Outputs to memory stage
-	jzjpcc_memory_if.execute memoryIF
+	jzjpcc_memory_if.execute memoryIF,
+	
+	//Inputs from hazard unit
+	input logic [31:0] bypassValueRS1_execute,
+	input logic [31:0] bypassValueRS2_execute,
+	input logic bypassRS1_execute,
+	input logic bypassRS2_execute
 );
 //Latched by sram register, not here
 logic [31:2] memAddress_execute;

@@ -38,6 +38,13 @@ module jzjpcc_hazard_unit
 	output logic bypassRS2_decode,
 	output logic bypassRS2_execute
 );
+logic memoryStall;//Due to a memory access
+logic controlStall;//Due to a branch or unconditional jump instruction
+
+assign stall_fetch = memoryStall | controlStall;
+//assign flush_decode = memoryStall | controlStall;
+assign flush_execute = memoryStall | controlStall;
+
 //Bypass logic for execute stage
 always_comb
 begin
@@ -77,5 +84,7 @@ begin
 end
 
 //Bypass logic for decode stage
+
+//Stall logic fo
 
 endmodule
