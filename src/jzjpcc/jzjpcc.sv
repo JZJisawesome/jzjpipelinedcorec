@@ -32,6 +32,7 @@ logic pcCTWriteEnable;//From decode
 logic [PC_MAX_B:2] controlTransferNewPC;//From decode
 logic stall_fetch;
 logic stall_decode;
+logic flush_decode;
 
 //Decode
 logic [31:2] instruction_decode;

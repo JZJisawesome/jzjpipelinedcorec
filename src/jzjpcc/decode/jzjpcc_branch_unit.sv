@@ -41,6 +41,7 @@ begin
 				3'b101: pcCTWriteEnable = $signed(realRS1) >= $signed(realRS2);//bge
 				3'b110: pcCTWriteEnable = realRS1 < realRS2;//bltu
 				3'b111: pcCTWriteEnable = realRS1 >= realRS2;//bgeu
+				default: pcCTWriteEnable = 'x;
 			endcase
 		end
 		JALR: pcCTWriteEnable = 1'b1;

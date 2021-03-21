@@ -24,8 +24,10 @@ module jzjpcc_fetch
 	
 	//Hazard control
 	input logic stall_fetch,//New pc won't be latched
-	input logic stall_decode//New instruction won't be latched
+	input logic stall_decode,//New instruction won't be latched
+	input logic flush_decode
 );
+
 //Initialize line is 1 on first posedge after reset (Stalls and flushes decode output to nop on first cycle)
 reg initialize = 1;//TODO make into logic; can't do that because we need an initial value of 1
 
@@ -47,7 +49,7 @@ begin
 	end
 	else if (clock)
 	begin
-		if (initialize)
+		if (initialize | flush_decode)
 		begin
 			instruction_decode <= 30'(32'h00000013 >> 2);//Flush to nop (addi x0, x0, 0 with the low 2 bits chopped off)
 		end

@@ -25,6 +25,7 @@ module jzjpcc_hazard_unit
 	//Stall/flush lines
 	output logic stall_fetch,
 	output logic stall_decode,
+	output logic flush_decode,
 	output logic flush_execute,
 	
 	//Bypass values in
@@ -48,6 +49,7 @@ logic controlStall;//Due to a branch or unconditional jump instruction
 
 assign stall_fetch = memoryStall | controlStall;
 assign stall_decode = memoryStall | controlStall;
+assign flush_decode = pcCTWriteEnable;//Fetch must be flushed whenever the pc jumps to a non-sequential location
 assign flush_execute = memoryStall | controlStall;
 
 //Bypass logic for execute stage
