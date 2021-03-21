@@ -49,8 +49,11 @@ logic controlStall;//Due to a branch or unconditional jump instruction
 
 assign stall_fetch = memoryStall | controlStall;
 assign stall_decode = memoryStall | controlStall;
-assign flush_decode = pcCTWriteEnable;//Fetch must be flushed whenever the pc jumps to a non-sequential location
 assign flush_execute = memoryStall | controlStall;
+
+//Fetch must be flushed whenever the pc jumps to a non-sequential location
+//We are careful not to flush if a branch or jump is being held up by operands
+assign flush_decode = pcCTWriteEnable && !controlStall;//TODO bug:branch is sometimes still taken even when it shouldn't be
 
 //Bypass logic for execute stage
 always_comb
