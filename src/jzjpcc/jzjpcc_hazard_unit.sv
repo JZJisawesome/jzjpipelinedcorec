@@ -52,8 +52,8 @@ assign stall_decode = memoryStall | controlStall;
 assign flush_execute = memoryStall | controlStall;
 
 //Fetch must be flushed whenever the pc jumps to a non-sequential location
-//We are careful not to flush if a branch or jump is being held up by operands
-assign flush_decode = pcCTWriteEnable && !controlStall;//TODO bug:branch is sometimes still taken even when it shouldn't be
+//We are careful not to flush if we are stalled because something is being held up by operands
+assign flush_decode = pcCTWriteEnable && !(memoryStall | controlStall);//TODO bug:branch is sometimes still taken even when it shouldn't be
 
 //Bypass logic for execute stage
 always_comb

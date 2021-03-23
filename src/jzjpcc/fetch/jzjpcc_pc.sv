@@ -21,7 +21,9 @@ localparam PC_BITS = PC_MAX_B - 1;
 logic [PC_MAX_B:2] nextSequentialPC;
 assign nextSequentialPC = currentPC_fetch + PC_BITS'(1);//Starts at bit 2, so this really adds 4
 
-assign nextPC = pcCTWriteEnable ? controlTransferNewPC : nextSequentialPC;
+//Ignore pcCTWriteEnable if fetch is stalled (so that imem does not fetch wrong instruction)
+//In the future, instead of doing  && !stall_fetch, disable imem address register in inferred sram
+assign nextPC = (pcCTWriteEnable && !stall_fetch) ? controlTransferNewPC : nextSequentialPC;
 
 //Writing logic
 always_ff @(posedge clock, posedge reset)
