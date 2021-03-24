@@ -60,6 +60,10 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
+set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name ALLOW_ANY_RAM_SIZE_FOR_RECOGNITION ON
+set_global_assignment -name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION ON
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/decode/jzjpcc_immediateFormer.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/decode/jzjpcc_decode.sv
 set_global_assignment -name SYSTEMVERILOG_FILE top.sv
@@ -69,10 +73,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/fetch/jzjpcc_pc.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/fetch/jzjpcc_fetch.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/memory_backend/jzjpcc_memory_backend.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/memory_backend/jzjpcc_inferred_sram.sv
-set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
-set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
-set_global_assignment -name ALLOW_ANY_RAM_SIZE_FOR_RECOGNITION ON
-set_global_assignment -name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION ON
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/memory_backend/jzjpcc_endianness_functions.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/execute/jzjpcc_alu.sv
 set_global_assignment -name SYSTEMVERILOG_FILE jzjpcc/execute/jzjpcc_execute.sv

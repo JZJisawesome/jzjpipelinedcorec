@@ -96,6 +96,7 @@ begin
 end
 
 //Multiplex RD source
-assign rd_writebackEnd = writebackIF.rdSource ? processedMemoryOut : writebackIF.aluResult;
+assign rd_writebackEnd = writebackIF.rdSource ? processedMemoryOut : writebackIF.aluResult;//Note: processedMemoryOut is on the critical path and so is branch unit sometimes; idk
+//assign rd_writebackEnd = writebackIF.rdSource ? writebackIF.memoryOut : writebackIF.aluResult;//JUST FOR TESTING BRANCH UNIT BECAUSE ABOVE BECOMES CRITICAL PATH FOR SOME REASON
 
 endmodule

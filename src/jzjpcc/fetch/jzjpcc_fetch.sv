@@ -45,7 +45,7 @@ begin
 	if (reset)
 	begin
 		instruction_decode <= 30'(32'h00000013 >> 2);//Reset to nop (addi x0, x0, 0 with the low 2 bits chopped off)
-		//Value of currentPC_decode does not matter because instruction_decode is nop
+		currentPC_decode <= PC_BITS'(RESET_VECTOR[31:2]);
 	end
 	else if (clock)
 	begin
